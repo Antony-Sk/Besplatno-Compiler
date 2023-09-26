@@ -1,0 +1,11 @@
+class Main is
+    method Factorial(a: Integer) : Integer is
+        if a.LessEqual(1) then
+            return 1
+        end
+        return a.Multiply(a, this.Factorial(a.Minus(1)))
+    end
+    this() is
+  var a is Factorial(5) // 120
+    end
+end
