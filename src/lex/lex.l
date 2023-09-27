@@ -1,19 +1,14 @@
 /*** Definition section ***/
-
 %{
-/* C code to be copied verbatim */
+/* C++ code to be copied verbatim */
 #include "lex.l.h"
 
 LexicalAnalyzer *_laptr;
-
 %}
 %option noyywrap
-
 %%
     /*** Rules section ***/
-
-    /* [0-9]+ matches a string of one or more digits */
-[0-9]{1,9}+  {
+[+-]?([0-9]{1,9}+)  {
     /* yytext is a string containing the matched text. */
     IntegerLit *token = new IntegerLit();
     token->code = tkIntegerLit;
@@ -35,7 +30,7 @@ Integer|Boolean|Real|Array {
         type->code = tkArray;
 
     _laptr->addToken(type);
-    printf("Saw an identifier: %s\n", yytext);
+    printf("Saw an type: %s\n", yytext);
 }
 
 True|False {
@@ -46,7 +41,7 @@ True|False {
     else
         token->value = false;
      _laptr->addToken(token);
-    printf("Saw an boolean: %s\n", yytext);
+     printf("Saw an boolean literal: %s\n", yytext);
 }
 
 [+-]?([0-9]*[.])?[0-9]+ {
@@ -54,7 +49,7 @@ True|False {
     token->code = tkRealLit;
     token->value = std::stold(yytext);
     _laptr->addToken(token);
-    printf("Saw an real: %s\n", yytext);
+    printf("Saw an real literal: %s\n", yytext);
 }
 
 var|method|is|end|this|class|extends|return|while|if|loop|then {
@@ -86,12 +81,33 @@ var|method|is|end|this|class|extends|return|while|if|loop|then {
     }
     token->keyword = yytext;
     _laptr->addToken(token);
-    printf("Saw a keyword: %s\n", yytext);
+    printf("Saw a reserved keyword: %s\n", yytext);
 }
 
+[_a-zA-Z][_a-zA-Z0-9]{0,30} {
+    Identifier* token = new Identifier();
+    token->identifier = yytext;
+    token->code = tkIdentifier;
+    _laptr->addToken(token);
+    printf("Saw an identifier: %s\n", yytext);
+}
 
+\/{2} {
+    OneLineComment* token = new OneLineComment();
+    token->code = tkComment;
+    _laptr->addToken(token);
+    printf("Saw a comment: %s\n", yytext);
+}
 
-.|\n    {   /* Ignore all other characters. */   }
+[ |\t|\n]+ {
+    Delimiter* token = new Delimiter();
+    token->code = tkDelimiter;
+    token->del = yytext;
+    _laptr->addToken(token);
+   // printf("Saw a delimiter: \'%s\'\n", yytext);
+}
+
+. {}
 
 %%
 /*** C Code section ***/

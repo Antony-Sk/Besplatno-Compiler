@@ -33,8 +33,7 @@ To generate lex.yy.cpp:
 
 Todo on lexical part:
 * The rest of tokens
-* Change felx -> flex++
-* Think of big ints
+* Change flex -> flex++
 * Output format of LexicalAnalyzer class
     * Implement nextToken()
     * Or make a function that returns list of all tokens

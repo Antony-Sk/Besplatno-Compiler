@@ -8,6 +8,7 @@
 #include <string>
 
 enum TokenCode {
+    tkIdentifier,
     // types
     tkInteger,
     tkBoolean,
@@ -31,8 +32,7 @@ enum TokenCode {
     tkLoop,
     tkThen,
     // delimiters
-    tkSpace,
-    tkNewline,
+    tkDelimiter,
     // TODO { } \t \n space :  ( ) := , . EOF
 
     // other
@@ -77,6 +77,12 @@ struct Keyword : Token {
 };
 
 struct ReservedWord : Token {
+};
+
+struct OneLineComment : Token {};
+
+struct Delimiter : Token {
+    std::string del;
 };
 
 #endif //BESPLATNO_COMPILER_TOKEN_H
