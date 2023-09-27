@@ -25,20 +25,6 @@ LexicalAnalyzer *_laptr;
 Integer|Boolean|Real|Array {
     Type *type = new Type();
     type->type = yytext;
-//    switch yytext {
-//        case "Integer":
-//            type->code = tkInteger;
-//            break;
-//        case "Boolean":
-//            type->code = tkBoolean;
-//            break;
-//        case "Real":
-//            type->code = tkReal;
-//            break;
-//        case "Array":
-//            type->code = tkArray;
-//            break;
-//    }
     if (strcmp(yytext, "Integer"))
         type->code = tkInteger;
     else if (strcmp(yytext, "Boolean"))
@@ -70,6 +56,40 @@ True|False {
     _laptr->addToken(token);
     printf("Saw an real: %s\n", yytext);
 }
+
+var|method|is|end|this|class|extends|return|while|if|loop|then {
+    Keyword* token = new Keyword();
+    if (strcmp(yytext, "var") == 0) {
+        token->code = tkVar;
+    } else if (strcmp(yytext, "method") == 0) {
+        token->code = tkMethod;
+    } else if (strcmp(yytext, "is") == 0) {
+        token->code = tkIs;
+    } else if (strcmp(yytext, "end") == 0) {
+        token->code = tkEnd;
+    } else if (strcmp(yytext, "this") == 0) {
+        token->code = tkThis;
+    } else if (strcmp(yytext, "class") == 0) {
+        token->code = tkClass;
+    } else if (strcmp(yytext, "extends") == 0) {
+        token->code = tkExtends;
+    } else if (strcmp(yytext, "return") == 0) {
+        token->code = tkReturn;
+    } else if (strcmp(yytext, "while") == 0) {
+        token->code = tkWhile;
+    } else if (strcmp(yytext, "if") == 0) {
+        token->code = tkIf;
+    } else if (strcmp(yytext, "loop") == 0) {
+        token->code = tkLoop;
+    } else if (strcmp(yytext, "then") == 0) {
+        token->code = tkThen;
+    }
+    token->keyword = yytext;
+    _laptr->addToken(token);
+    printf("Saw a keyword: %s\n", yytext);
+}
+
+
 
 .|\n    {   /* Ignore all other characters. */   }
 

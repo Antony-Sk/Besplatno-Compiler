@@ -72,6 +72,10 @@ struct Type : Token {
     std::string type;
 };
 
+struct Keyword : Token {
+    std::string keyword;
+};
+
 struct ReservedWord : Token {
 };
 
