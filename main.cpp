@@ -1,8 +1,12 @@
-#include "lex.l.h"
+#include "lexicalAnalyzer.h"
+#include "scanner.h"
 
 int main() {
-    // Test
-    // start this and print your program or pass it throw a pipe
     LexicalAnalyzer la;
-    lexAnalyzerProcess(&la);
+    Scanner scanner;
+    Token *t = scanner.get_next_token();
+    while (t != nullptr) {
+        std::cout << GetStrOfToken(t) << " Line: " << t->span.lineNum << " Pos: " << t->span.posBegin << " " << t->span.posEnd << "\n";
+        t = scanner.get_next_token();
+    }
 }

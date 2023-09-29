@@ -1,22 +1,14 @@
-/*** Definition section ***/
 %{
-/* C++ code to be copied verbatim */
-#include "lex.l.h"
+#include "scanner.h"
 
-LexicalAnalyzer *_laptr;
+int _lineNum = 0;
+int _posInLine = 0;
 %}
+%option nodefault
 %option noyywrap
+%option c++
+%option yyclass="Scanner"
 %%
-    /*** Rules section ***/
-[+-]?([0-9]{1,9}+)  {
-    /* yytext is a string containing the matched text. */
-    IntegerLit *token = new IntegerLit();
-    token->code = tkIntegerLit;
-    token->value = std::stol(yytext); // TODO Big numbers
-    _laptr->addToken(token);
-    printf("Saw an integer: %s\n", yytext);
-}
-
 Integer|Boolean|Real|Array {
     Type *type = new Type();
     type->type = yytext;
@@ -28,28 +20,48 @@ Integer|Boolean|Real|Array {
         type->code = tkReal;
     else if (strcmp(yytext, "Array"))
         type->code = tkArray;
-
-    _laptr->addToken(type);
-    printf("Saw an type: %s\n", yytext);
+    type->span.lineNum = _lineNum;
+    type->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    type->span.posEnd = _posInLine;
+    return type;
 }
 
-True|False {
+true|false {
     BooleanLit* token = new BooleanLit();
     token->code = tkBooleanLit;
     if (strcmp(yytext, "True"))
         token->value = true;
     else
         token->value = false;
-     _laptr->addToken(token);
-     printf("Saw an boolean literal: %s\n", yytext);
+    token->span.lineNum = _lineNum;
+    token->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    token->span.posEnd = _posInLine;
+    return token;
+}
+
+[+-]?([0-9]{1,9}+)  {
+    /* yytext is a string containing the matched text. */
+    IntegerLit *token = new IntegerLit();
+    token->code = tkIntegerLit;
+    token->value = std::stol(yytext);
+    token->span.lineNum = _lineNum;
+    token->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    token->span.posEnd = _posInLine;
+    return token;
 }
 
 [+-]?([0-9]*[.])?[0-9]+ {
     RealLit* token = new RealLit();
     token->code = tkRealLit;
     token->value = std::stold(yytext);
-    _laptr->addToken(token);
-    printf("Saw an real literal: %s\n", yytext);
+    token->span.lineNum = _lineNum;
+    token->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    token->span.posEnd = _posInLine;
+    return token;
 }
 
 var|method|is|end|this|class|extends|return|while|if|loop|then {
@@ -80,41 +92,58 @@ var|method|is|end|this|class|extends|return|while|if|loop|then {
         token->code = tkThen;
     }
     token->keyword = yytext;
-    _laptr->addToken(token);
-    printf("Saw a reserved keyword: %s\n", yytext);
+    token->span.lineNum = _lineNum;
+    token->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    token->span.posEnd = _posInLine;
+    return token;
 }
 
 [_a-zA-Z][_a-zA-Z0-9]{0,30} {
     Identifier* token = new Identifier();
     token->identifier = yytext;
     token->code = tkIdentifier;
-    _laptr->addToken(token);
-    printf("Saw an identifier: %s\n", yytext);
+    token->span.lineNum = _lineNum;
+    token->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    token->span.posEnd = _posInLine;
+    return token;
 }
 
-\/{2} {
-    OneLineComment* token = new OneLineComment();
-    token->code = tkComment;
-    _laptr->addToken(token);
-    printf("Saw a comment: %s\n", yytext);
+^\/\/[^\n\r]+(?:[\n\r]|\*\))$ {
+    /* ignore comments */
 }
 
-[ |\t|\n]+ {
+[\{\}\[\]\(\)]|:=|,|\.|:|[ |\t]+ { // Maybe forgot smt
     Delimiter* token = new Delimiter();
     token->code = tkDelimiter;
     token->del = yytext;
-    _laptr->addToken(token);
-   // printf("Saw a delimiter: \'%s\'\n", yytext);
+    token->span.lineNum = _lineNum;
+    token->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    token->span.posEnd = _posInLine;
+    return token;
+}
+
+\n {
+    Delimiter* token = new Delimiter();
+    token->code = tkDelimiter;
+    token->del = "\n";
+
+    token->span.lineNum = _lineNum;
+    token->span.posBegin = _posInLine;
+    _posInLine += strlen(yytext);
+    token->span.posEnd = _posInLine;
+
+    _lineNum++;
+    _posInLine = 0;
+    return token;
 }
 
 . {}
 
-%%
-/*** C Code section ***/
-
-void lexAnalyzerProcess(LexicalAnalyzer* la)
-{
-    _laptr = la;
-    /* Call the lexer, then quit. */
-    yylex();
+<<EOF>> {
+    return nullptr;
 }
+
+%%

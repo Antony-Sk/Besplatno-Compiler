@@ -33,10 +33,6 @@ enum TokenCode {
     tkThen,
     // delimiters
     tkDelimiter,
-    // TODO { } \t \n space :  ( ) := , . EOF
-
-    // other
-    tkComment, // '//'
 };
 
 struct Token {
@@ -44,27 +40,22 @@ struct Token {
         long lineNum;
         int posBegin, posEnd;
     } span;
-
     unsigned int code;
 };
 
 struct Identifier : Token {
-// Attributes specific for identifiers
     std::string identifier;
 };
 
 struct IntegerLit : Token {
-// Attributes specific for integer constants
     long value;
 };
 
 struct RealLit : Token {
-// Attributes specific for real constants
     long double value;
 };
 
 struct BooleanLit : Token {
-// Attributes specific for real constants
     bool value;
 };
 
@@ -76,13 +67,57 @@ struct Keyword : Token {
     std::string keyword;
 };
 
-struct ReservedWord : Token {
-};
-
-struct OneLineComment : Token {};
-
 struct Delimiter : Token {
     std::string del;
 };
+
+static std::string GetStrOfToken(Token *t) {
+    switch (t->code) {
+        case tkIntegerLit:
+            return "Integer Literal: " + std::to_string(reinterpret_cast<IntegerLit*>(t)->value);
+        case tkBooleanLit:
+            return "Boolean Literal: " + std::to_string(reinterpret_cast<BooleanLit*>(t)->value);
+        case tkRealLit:
+            return "Real Literal: " + std::to_string(reinterpret_cast<RealLit*>(t)->value);
+        case tkIdentifier:
+            return "Identifier: " + reinterpret_cast<Identifier*>(t)->identifier;
+        case tkInteger:
+            return "Integer";
+        case tkBoolean:
+            return "Boolean";
+        case tkReal:
+            return "Real";
+        case tkArray:
+            return "Array";
+        case tkVar:
+            return "Variable Declaration";
+        case tkMethod:
+            return "Method Declaration";
+        case tkIs:
+            return "Assignment";
+        case tkEnd:
+            return "End";
+        case tkThis:
+            return "This";
+        case tkClass:
+            return "Class";
+        case tkExtends:
+            return "Extends";
+        case tkReturn:
+            return "Return";
+        case tkWhile:
+            return "While";
+        case tkIf:
+            return "If";
+        case tkLoop:
+            return "Loop";
+        case tkThen:
+            return "Then";
+        case tkDelimiter:
+            return "Delimiter: '" + reinterpret_cast<Delimiter*>(t)->del + "'";
+        default:
+            return "Unknown";
+    }
+}
 
 #endif //BESPLATNO_COMPILER_TOKEN_H

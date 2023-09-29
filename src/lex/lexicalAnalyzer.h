@@ -14,7 +14,6 @@ public:
     Token getNext(); // Todo: implement
 
     void addToken(Token *token) {
-        std::cout << "Token: " << token->code << " " << token->span.lineNum << '\n';
         _tokens.push_back(token);
     }
 
