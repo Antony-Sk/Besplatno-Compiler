@@ -11,7 +11,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Besplatno_Compiler main.cpp
         src/lex/token.h
-        src/lex/lexicalAnalyzer.h
         src/lex/scanner.cpp
 )
 include_directories(src/lex)

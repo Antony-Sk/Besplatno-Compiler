@@ -1,8 +1,6 @@
-#include "lexicalAnalyzer.h"
 #include "scanner.h"
 
 int main() {
-    LexicalAnalyzer la;
     Scanner scanner;
     Token *t = scanner.get_next_token();
     while (t != nullptr) {
