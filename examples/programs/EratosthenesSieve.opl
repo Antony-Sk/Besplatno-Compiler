@@ -4,14 +4,14 @@ class Main is
         var maxNumber : Integer(100)
         var i : Integer(0)
         while i.Less(maxNumber) loop
-            res[i] := 0
+            res.set(i, 0)
         end
         i := 2
         while i.Less(maxNumber) loop
-            if res[i].Equal(0) then
+            if res.get(i).Equal(0) then
                 var j : Integer(i)
-		   while j.Less(maxNumber) loop
-                    res[j] := i
+                while j.Less(maxNumber) loop
+                    res.set(j, i)
                     j := j.Plus(i)
                 end
             end

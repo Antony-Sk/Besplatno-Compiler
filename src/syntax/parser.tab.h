@@ -125,7 +125,7 @@ union value
   BooleanLit* booleanLit;
   IntegerLit* integerLit;
   RealLit*    realLit;
-  Type* type;
+  TypeToken* type;
 
 #line 130 "parser.tab.h"
 

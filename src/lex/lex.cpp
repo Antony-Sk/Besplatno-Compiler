@@ -25,7 +25,7 @@ void BooleanLit::setYylval(YYSTYPE &yylval) {
     yylval.booleanLit = this;
 }
 
-void Type::setYylval(YYSTYPE &yylval) {
+void TypeToken::setYylval(YYSTYPE &yylval) {
     yylval.type = this;
 }
 

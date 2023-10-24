@@ -6,6 +6,6 @@ class Main is
         return a.Multiply(a, this.Factorial(a.Minus(1)))
     end
     this() is
-        var a is Factorial(5) // 120
+        var a : Factorial(5)
     end
 end

@@ -27,6 +27,7 @@
   CompoundExpression* cexp;
   Expression* exp;
   MethodCall* metcall;
+  ConstructorCall* cstcall;
   Expressions* exps;
   Keyword* keyword;
   Delimiter* delimiter;
@@ -34,7 +35,9 @@
   BooleanLit* booleanLit;
   IntegerLit* integerLit;
   RealLit*    realLit;
+  TypeToken* typetk;
   Type* type;
+  Types* types;
 }
 
 %type <cds>         ClassDeclarations
@@ -58,9 +61,12 @@
 %type <cexp>        CompoundExpression
 %type <exp>         Expression
 %type <metcall>     MethodCall
+%type <cstcall>     ConstructorCall
 %type <exps>        Expressions
 %type <exp>         Relation
+%type <typetk>      TypeToken
 %type <type>        Type
+%type <types>       Types
 
 %token <identifier>    IDENTIFIER
 %token <keyword>       CLASS
@@ -89,10 +95,10 @@
 %token <booleanLit>    BOOLLITERAL
 %token <integerLit>    INTEGERLITERAL
 %token <realLit>       REALLITERAL
-%token <type>          REAL
-%token <type>          INTEGER
-%token <type>          BOOLEAN
-%token <type>          ARRAY
+%token <typetk>        REAL
+%token <typetk>        INTEGER
+%token <typetk>        BOOLEAN
+%token <typetk>        ARRAY
 
 %start                 Program
 
@@ -108,8 +114,8 @@ ClassDeclarations
     ;
 
 ClassDeclaration
-    : CLASS IDENTIFIER IS ClassBody END { $$ = new ClassDeclaration($2->identifier, $4); }
-    | CLASS IDENTIFIER EXTENDS IDENTIFIER IS ClassBody END { $$ = new ClassDeclaration($2->identifier, $6); }
+    : CLASS Type IS ClassBody END              { $$ = new ClassDeclaration($2, $4); }
+    | CLASS Type EXTENDS Type IS ClassBody END { $$ = new ClassDeclaration($2, $6); }
     ;
 
 ClassBody
@@ -175,12 +181,12 @@ Assignment
     ;
 
 IfStatement
-    : IF Relation THEN Statement END                { $$ = new IfStatement($2, $4, nullptr); }
-    | IF Relation THEN Statement ELSE Statement END { $$ = new IfStatement($2, $4, $6); }
+    : IF Relation THEN Statements END                 { $$ = new IfStatement($2, $4, nullptr); }
+    | IF Relation THEN Statements ELSE Statements END { $$ = new IfStatement($2, $4, $6); }
     ;
 
 WhileStatement
-    : WHILE Relation LOOP Statement END { $$ = new WhileStatement($2, $4); }
+    : WHILE Relation LOOP Statements END { $$ = new WhileStatement($2, $4); }
     ;
 
 ReturnStatement
@@ -195,6 +201,7 @@ Expression
     | THIS               { auto t = new Expression(); *t = $1; $$ = t; }
     | IDENTIFIER         { auto t = new Expression(); *t = $1->identifier; $$ = t; }
     | MethodCall         { auto t = new Expression(); *t = $1; $$ = t; }
+    | ConstructorCall    { auto t = new Expression(); *t = $1; $$ = t; }
     | CompoundExpression { auto t = new Expression(); *t = $1; $$ = t; }
     ;
 
@@ -204,6 +211,10 @@ CompoundExpression
 
 Relation
     : Expression { $$ = $1; }
+    ;
+
+ConstructorCall
+    : Type LPAREN Expressions RPAREN       { $$ = new ConstructorCall($1, $3); }
     ;
 
 MethodCall
@@ -217,7 +228,16 @@ Expressions
     ;
 
 Type
-    : INTEGER | BOOLEAN | REAL | IDENTIFIER
+    : INTEGER                            { $$ = new Type($1, nullptr); }
+    | BOOLEAN                            { $$ = new Type($1, nullptr); }
+    | REAL                               { $$ = new Type($1, nullptr); }
+    | IDENTIFIER                         { $$ = new Type($1->identifier, nullptr); }
+    | IDENTIFIER LBRACKET Types RBRACKET { $$ = new Type($1->identifier, $3); }
+    ;
+
+Types
+    : Type             { $$ = new Types($1); }
+    | Types COMMA Type { $$ = $1->add($3); }
     ;
 %%
 

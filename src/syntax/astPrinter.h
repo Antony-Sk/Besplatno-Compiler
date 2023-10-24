@@ -7,10 +7,37 @@
 
 #include "ast.h"
 
+void print(Types*);
+void print(Type* t) {
+    if (std::holds_alternative<std::string>(t->base)) {
+        std::cout << std::get<std::string>(t->base);
+    }
+    if (std::holds_alternative<TypeToken*>(t->base)) {
+        std::cout << std::get<TypeToken*>(t->base)->type;
+    }
+    if (t->generics == nullptr)
+        return;
+    print(t->generics);
+}
+void print(Types* t) {
+    std::cout << "[";
+    for (int i = 0; i < t->types.size() - 1; i++) {
+        print(t->types[i]);
+    }
+    std::cout << "]";
+}
 void print(Expression *e, int offset = 0);
 
 void print(Statement *s, int offset = 0);
 
+void print(Statements *sts, int offset = 0) {
+    for (int i = 0; i < offset; i++)
+        std::cout << "-";
+    std::cout << "Statements" << "\n";
+    for (auto s: sts->stmts) {
+        print(s, offset + 1);
+    }
+}
 void print(IfStatement *is, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
@@ -18,6 +45,7 @@ void print(IfStatement *is, int offset = 0) {
     print(is->relation, offset + 1);
     print(is->statement, offset + 1);
 }
+
 void print(WhileStatement *ws, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
@@ -36,7 +64,9 @@ void print(ReturnStatement *rs, int offset = 0) {
 void print(VariableDefinition *vd, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
-    std::cout << "Var def : " << vd->name << " with type : " << vd->type->type << "\n";
+    std::cout << "Var def : " << vd->name << " with type : ";
+    print(vd->type);
+    std::cout << "\n";
 }
 
 void print(VariableDeclaration *vd, int offset = 0) {
@@ -70,19 +100,12 @@ void print(Statement *s, int offset) {
     }
 }
 
-void print(Statements *sts, int offset = 0) {
-    for (int i = 0; i < offset; i++)
-        std::cout << "-";
-    std::cout << "Statements" << "\n";
-    for (auto s: sts->stmts) {
-        print(s, offset + 1);
-    }
-}
-
 void print(Argument *arg, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
-    std::cout << "Arg '" << arg->name << "' of type " << arg->type->type << "\n";
+    std::cout << "Arg '" << arg->name << "' of type ";
+    print(arg->type);
+    std::cout << "\n";
 }
 
 void print(Arguments *args, int offset = 0) {
@@ -109,6 +132,14 @@ void print(MethodCall *mc, int offset = 0) {
     std::cout << "Method '" << mc->name << "' call with args:\n";
     print(mc->arguments, offset + 1);
 }
+void print(ConstructorCall *mc, int offset = 0) {
+    for (int i = 0; i < offset; i++)
+        std::cout << "-";
+    std::cout << "Constructor of type '";
+    print(mc->type);
+    std::cout << "' call with args:\n";
+    print(mc->arguments, offset + 1);
+}
 
 void print(CompoundExpression *ce, int offset = 0);
 
@@ -131,6 +162,10 @@ void print(Expression *e, int offset) {
     if (std::holds_alternative<MethodCall *>(*e)) {
         std::cout << "\n";
         print(std::get<MethodCall *>(*e), offset + 1);
+    }
+    if (std::holds_alternative<ConstructorCall *>(*e)) {
+        std::cout << "\n";
+        print(std::get<ConstructorCall *>(*e), offset + 1);
     }
     if (std::holds_alternative<CompoundExpression *>(*e)) {
         std::cout << "\n";
@@ -160,7 +195,9 @@ void print(ConstructorDeclaration *cd, int offset = 0) {
 void print(MethodDeclaration *md, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
-    std::cout << "Method : " << md->name << " with return type : " << md->returnType->type << "\n";
+    std::cout << "Method : " << md->name << " with return type : ";
+    print(md->returnType);
+    std::cout << "\n";
     print(md->arguments, offset + 1);
     print(md->body, offset + 1);
 }
@@ -186,7 +223,10 @@ void print(MemberDeclaration *md, int offset = 0) {
 void print(ClassDeclaration *cd, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
-    std::cout << "Class : " << cd->name << "\n";
+    std::cout << "Class : " << std::get<std::string>(cd->type->base);
+    if (cd->type->generics != nullptr)
+        print(cd->type->generics);
+    std::cout << "\n";
     for (auto m: cd->body->members->decls) {
         print(m, offset + 1);
     }

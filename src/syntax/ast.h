@@ -13,8 +13,27 @@
 
 struct CompoundExpression;
 struct MethodCall;
+struct ConstructorCall;
+struct Types;
 
-typedef std::variant<IntegerLit*, BooleanLit*, RealLit*, std::string, MethodCall*, CompoundExpression*, Keyword*> Expression;
+struct Type {
+    std::variant<TypeToken*, std::string> base;
+    Types* generics;
+
+    Type(const std::variant<TypeToken*, std::string> &base, Types *generics) : base(base), generics(generics) {}
+};
+
+struct Types {
+    std::vector<Type*> types;
+    Types() : types() {};
+    explicit Types(Type* type) : types({type}) {};
+    Types* add(Type* type) {
+        types.push_back(type);
+        return this;
+    }
+};
+
+typedef std::variant<IntegerLit*, BooleanLit*, RealLit*, std::string, MethodCall*, ConstructorCall*, CompoundExpression*, Keyword*> Expression;
 
 struct Expressions {
     std::vector<Expression *> exps;
@@ -35,6 +54,14 @@ struct MethodCall {
 
     MethodCall(std::string& name, Expressions *arguments) : name(name), arguments(arguments) {}
 };
+
+struct ConstructorCall {
+    Type* type;
+    Expressions *arguments;
+
+    ConstructorCall(Type* type, Expressions *arguments) : type(type), arguments(arguments) {}
+};
+
 
 typedef Expression Relation;
 
@@ -61,30 +88,6 @@ struct ReturnStatement {
     explicit ReturnStatement(Expression *expression) : expression(expression) {}
 };
 
-struct WhileStatement {
-    Relation *relation;
-    Statement *statement;
-
-    WhileStatement(Relation *relation, Statement *statement) : relation(relation), statement(statement) {}
-};
-
-struct IfStatement {
-    Relation *relation;
-    Statement *statement;
-    Statement *elseStatement;
-
-    IfStatement(Relation *relation, Statement *statement, Statement *elseStatement) : relation(relation),
-                                                                                      statement(statement),
-                                                                                      elseStatement(elseStatement) {}
-};
-
-struct Assignment {
-    std::string identifier;
-    Expression *expression;
-
-    Assignment(std::string& identifier, Expression *expression) : identifier(identifier), expression(expression) {}
-};
-
 struct Statements {
     std::vector<Statement *> stmts;
 
@@ -95,6 +98,30 @@ struct Statements {
 
     Statements() = default;
     explicit Statements(Statement *stmt) { stmts = {stmt}; }
+};
+
+struct WhileStatement {
+    Relation *relation;
+    Statements *statement;
+
+    WhileStatement(Relation *relation, Statements *statement) : relation(relation), statement(statement) {}
+};
+
+struct IfStatement {
+    Relation *relation;
+    Statements *statement;
+    Statements *elseStatement;
+
+    IfStatement(Relation *relation, Statements *statement, Statements *elseStatement) : relation(relation),
+                                                                                      statement(statement),
+                                                                                      elseStatement(elseStatement) {}
+};
+
+struct Assignment {
+    std::string identifier;
+    Expression *expression;
+
+    Assignment(std::string& identifier, Expression *expression) : identifier(identifier), expression(expression) {}
 };
 
 struct Argument {
@@ -167,12 +194,10 @@ struct ClassBody {
 };
 
 struct ClassDeclaration {
-    std::string name;
+    Type* type;
     ClassBody *body;
 
-    ClassDeclaration(std::string &name, ClassBody *body) : name(name), body(body) {
-        std::cout << "new class " << name << '\n';
-    };
+    ClassDeclaration(Type *type, ClassBody *body) : type(type), body(body) { };
 };
 
 struct ClassDeclarations {

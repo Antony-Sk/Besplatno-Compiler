@@ -53,7 +53,7 @@ struct BooleanLit : Token {
     void setYylval(YYSTYPE&) override;
 };
 
-struct Type : Token {
+struct TypeToken : Token {
     std::string type;
     std::string toString() override {
         return "Keyword token \'" + type + "\'";

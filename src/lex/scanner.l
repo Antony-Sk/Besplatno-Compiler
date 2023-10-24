@@ -10,7 +10,7 @@ int _posInLine = 0;
 %option yyclass="Scanner"
 %%
 Integer|Boolean|Real|Array {
-    Type *type = new Type();
+    TypeToken *type = new TypeToken();
     type->type = yytext;
     if (strcmp(yytext, "Integer"))
         type->code = INTEGER;
@@ -24,7 +24,7 @@ Integer|Boolean|Real|Array {
     type->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     type->span.posEnd = _posInLine;
-    yylval.type = type;
+    type->setYylval(yylval);
     return type;
 }
 
@@ -39,7 +39,7 @@ true|false {
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.booleanLit = token;
+    token->setYylval(yylval);
     return token;
 }
 
@@ -52,7 +52,7 @@ true|false {
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.integerLit = token;
+    token->setYylval(yylval);
     return token;
 }
 
@@ -64,7 +64,7 @@ true|false {
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.realLit = token;
+    token->setYylval(yylval);
     return token;
 }
 
@@ -100,7 +100,7 @@ var|method|is|end|this|class|extends|return|while|if|loop|then {
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.keyword = token;
+    token->setYylval(yylval);
     return token;
 }
 
@@ -112,7 +112,7 @@ var|method|is|end|this|class|extends|return|while|if|loop|then {
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.identifier = token;
+    token->setYylval(yylval);
     return token;
 }
 

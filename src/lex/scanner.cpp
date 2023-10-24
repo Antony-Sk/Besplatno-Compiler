@@ -705,7 +705,7 @@ case 1:
 YY_RULE_SETUP
 #line 12 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 {
-    Type *type = new Type();
+    TypeToken *type = new TypeToken();
     type->type = yytext;
     if (strcmp(yytext, "Integer"))
         type->code = INTEGER;
@@ -719,7 +719,7 @@ YY_RULE_SETUP
     type->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     type->span.posEnd = _posInLine;
-    yylval.type = type;
+    type->setYylval(yylval);
     return type;
 }
 	YY_BREAK
@@ -737,7 +737,7 @@ YY_RULE_SETUP
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.booleanLit = token;
+    token->setYylval(yylval);
     return token;
 }
 	YY_BREAK
@@ -753,7 +753,7 @@ YY_RULE_SETUP
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.integerLit = token;
+    token->setYylval(yylval);
     return token;
 }
 	YY_BREAK
@@ -768,7 +768,7 @@ YY_RULE_SETUP
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.realLit = token;
+    token->setYylval(yylval);
     return token;
 }
 	YY_BREAK
@@ -807,7 +807,7 @@ YY_RULE_SETUP
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.keyword = token;
+    token->setYylval(yylval);
     return token;
 }
 	YY_BREAK
@@ -822,7 +822,7 @@ YY_RULE_SETUP
     token->span.posBegin = _posInLine;
     _posInLine += strlen(yytext);
     token->span.posEnd = _posInLine;
-    yylval.identifier = token;
+    token->setYylval(yylval);
     return token;
 }
 	YY_BREAK
