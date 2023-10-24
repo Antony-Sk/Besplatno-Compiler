@@ -114,8 +114,8 @@ ClassDeclarations
     ;
 
 ClassDeclaration
-    : CLASS Type IS ClassBody END              { $$ = new ClassDeclaration($2, $4); }
-    | CLASS Type EXTENDS Type IS ClassBody END { $$ = new ClassDeclaration($2, $6); }
+    : CLASS Type IS ClassBody END              { $$ = new ClassDeclaration($2, $4, nullptr); }
+    | CLASS Type EXTENDS Type IS ClassBody END { $$ = new ClassDeclaration($2, $6, $4); }
     ;
 
 ClassBody

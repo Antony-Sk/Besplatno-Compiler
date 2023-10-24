@@ -25,8 +25,6 @@ Todo on lexical part:
 * Comments are buggy, test it
 
 ## Syntax part
-
-Todo:
-* Inheritance
-* Generics
-* []
+Todo
+* Check on bugs
+* More example maybe

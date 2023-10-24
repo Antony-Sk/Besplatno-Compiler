@@ -23,7 +23,10 @@ void print(Types* t) {
     std::cout << "[";
     for (int i = 0; i < t->types.size() - 1; i++) {
         print(t->types[i]);
+        std::cout << ", ";
     }
+    if (!t->types.empty())
+        print(t->types.back());
     std::cout << "]";
 }
 void print(Expression *e, int offset = 0);
@@ -226,10 +229,15 @@ void print(ClassDeclaration *cd, int offset = 0) {
     std::cout << "Class : " << std::get<std::string>(cd->type->base);
     if (cd->type->generics != nullptr)
         print(cd->type->generics);
-    std::cout << "\n";
-    for (auto m: cd->body->members->decls) {
-        print(m, offset + 1);
+    if (cd->extends != nullptr) {
+        std::cout << " extends: ";
+        print(cd->extends);
     }
+    std::cout << "\n";
+    if (cd->body->members != nullptr)
+        for (auto m: cd->body->members->decls) {
+            print(m, offset + 1);
+        }
 }
 
 void print(Program *program, int offset = 0) {

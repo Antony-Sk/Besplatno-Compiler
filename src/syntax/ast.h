@@ -196,8 +196,9 @@ struct ClassBody {
 struct ClassDeclaration {
     Type* type;
     ClassBody *body;
+    Type* extends;
 
-    ClassDeclaration(Type *type, ClassBody *body) : type(type), body(body) { };
+    ClassDeclaration(Type *type, ClassBody *body, Type* extends) : type(type), body(body), extends(extends) { };
 };
 
 struct ClassDeclarations {
