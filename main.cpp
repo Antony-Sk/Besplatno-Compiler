@@ -1,10 +1,13 @@
-#include "scanner.h"
+#include "parser.h"
+#include "ast.h"
+#include "astPrinter.h"
+extern Program *program;
 
 int main() {
-    Scanner scanner;
-    Token *t = scanner.get_next_token();
-    while (t != nullptr) {
-        std::cout << GetStrOfToken(t) << " Line: " << t->span.lineNum << " Pos: " << t->span.posBegin << " " << t->span.posEnd << "\n";
-        t = scanner.get_next_token();
+    int t = yyparse();
+    while (t) {
+        t = yyparse();
     }
+    Program* p = program;
+    print(p,0);
 }

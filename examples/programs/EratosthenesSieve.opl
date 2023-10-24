@@ -11,7 +11,7 @@ class Main is
             if res[i].Equal(0) then
                 var j : Integer(i)
 		   while j.Less(maxNumber) loop
-                    res[j] := i // if res[i] == i then i is prime else res[i] is divisor of i
+                    res[j] := i
                     j := j.Plus(i)
                 end
             end

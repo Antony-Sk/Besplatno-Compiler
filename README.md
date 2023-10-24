@@ -35,3 +35,10 @@ Todo on lexical part:
 * The rest of tokens
 * 3..1:
   * I did that 1. is not valid real but .1 and 1.1 are valid ones
+
+## Syntax part
+
+Todo:
+* Inheritance
+* Generics
+* []

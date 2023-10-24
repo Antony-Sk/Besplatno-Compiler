@@ -13,6 +13,7 @@
 class Scanner : public yyFlexLexer {
 public:
     Token *get_next_token();
+    std::string getStrval();
 };
 
 #endif

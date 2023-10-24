@@ -13,6 +13,6 @@ end
 class Main is
     this() is
         var x : B(1, 2)
-        x.set(a) := 1 // is accessible
+        x.set(a) := 1
     end
 end

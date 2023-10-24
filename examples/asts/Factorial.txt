@@ -1,0 +1,48 @@
+Program
+-Class : Main
+--Member decl
+---Method : Factorial with return type : Integer
+----Args
+-----Arg 'a' of type Integer
+----Statements
+-----Statement
+------IF
+-------Expression with value :
+--------Compound expression
+---------Expression with value : a
+---------Method 'LessEqual' call with args:
+----------Expressions
+-----------Expression with value : 94238480546064
+-------Statement
+--------RETURN
+---------Expression with value : 94238480546672
+-----Statement
+------RETURN
+-------Expression with value :
+--------Compound expression
+---------Expression with value : a
+---------Method 'Multiply' call with args:
+----------Expressions
+-----------Expression with value : a
+-----------Expression with value :
+------------Compound expression
+-------------Expression with value :
+-------------Method 'Factorial' call with args:
+--------------Expressions
+---------------Expression with value :
+----------------Compound expression
+-----------------Expression with value : a
+-----------------Method 'Minus' call with args:
+------------------Expressions
+-------------------Expression with value : 94238480548416
+--Member decl
+---Constructor
+----Args
+-----Arg 'a' of type Integer
+----Statements
+-----Statement
+------Var decl : a
+-------Expression with value :
+--------Method 'Factorial' call with args:
+---------Expressions
+----------Expression with value : 94238480550288
