@@ -118,6 +118,7 @@ union value
   CompoundExpression* cexp;
   Expression* exp;
   MethodCall* metcall;
+  ConstructorCall* cstcall;
   Expressions* exps;
   Keyword* keyword;
   Delimiter* delimiter;
@@ -125,9 +126,11 @@ union value
   BooleanLit* booleanLit;
   IntegerLit* integerLit;
   RealLit*    realLit;
-  TypeToken* type;
+  TypeToken* typetk;
+  Type* type;
+  Types* types;
 
-#line 130 "parser.tab.h"
+#line 133 "parser.tab.h"
 
 };
 #line 8 "parser.y"

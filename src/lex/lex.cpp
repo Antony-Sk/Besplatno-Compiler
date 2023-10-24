@@ -26,7 +26,7 @@ void BooleanLit::setYylval(YYSTYPE &yylval) {
 }
 
 void TypeToken::setYylval(YYSTYPE &yylval) {
-    yylval.type = this;
+    yylval.typetk = this;
 }
 
 void Keyword::setYylval(YYSTYPE &yylval) {
