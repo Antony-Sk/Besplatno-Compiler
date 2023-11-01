@@ -103,10 +103,9 @@ union value
   ClassBody* cb;
   MemberDeclarations* mds;
   MemberDeclaration* md;
-  ConstructorDeclaration* cstrd;
-  MethodDeclaration* metd;
-  VariableDeclaration* vard;
-  VariableDefinition* vardef;
+  Constructor* cstrd;
+  Method* metd;
+  Variable* vard;
   Arguments* argsd;
   Argument* argd;
   Statements* sttms;
@@ -130,7 +129,7 @@ union value
   Type* type;
   Types* types;
 
-#line 133 "parser.tab.h"
+#line 132 "parser.tab.h"
 
 };
 #line 8 "parser.y"

@@ -1,9 +1,9 @@
 class A is
-    var a : Integer
+    var a : Integer()
 end
 
 class B extends A is
-    var b : Integer
+    var b : Integer()
     this(x : Integer, y : Integer) is
 	a := x
 	b := y

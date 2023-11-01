@@ -12,10 +12,9 @@
   ClassBody* cb;
   MemberDeclarations* mds;
   MemberDeclaration* md;
-  ConstructorDeclaration* cstrd;
-  MethodDeclaration* metd;
-  VariableDeclaration* vard;
-  VariableDefinition* vardef;
+  Constructor* cstrd;
+  Method* metd;
+  Variable* vard;
   Arguments* argsd;
   Argument* argd;
   Statements* sttms;
@@ -46,10 +45,9 @@
 %type <cb>          ClassBody
 %type <mds>         MemberDeclarations
 %type <md>          MemberDeclaration
-%type <cstrd>       ConstructorDeclaration
-%type <metd>        MethodDeclaration
-%type <vard>        VariableDeclaration
-%type <vardef>      VariableDefinition
+%type <cstrd>       Constructor
+%type <metd>        Method
+%type <vard>        Variable
 %type <argsd>       ArgumentDeclarations
 %type <argd>        ArgumentDeclaration
 %type <sttms>       Statements
@@ -129,25 +127,20 @@ MemberDeclarations
     ;
 
 MemberDeclaration
-    : VariableDefinition     { auto t = new MemberDeclaration(); *t = $1; $$ = t; }
-    | VariableDeclaration    { auto t = new MemberDeclaration(); *t = $1; $$ = t; }
-    | MethodDeclaration      { auto t = new MemberDeclaration(); *t = $1; $$ = t; }
-    | ConstructorDeclaration { auto t = new MemberDeclaration(); *t = $1; $$ = t; }
+    : Variable    { auto t = new MemberDeclaration(); *t = $1; $$ = t; }
+    | Method      { auto t = new MemberDeclaration(); *t = $1; $$ = t; }
+    | Constructor { auto t = new MemberDeclaration(); *t = $1; $$ = t; }
     ;
 
-VariableDeclaration
-    : VAR IDENTIFIER COLON Expression { $$ = new VariableDeclaration($2->identifier, $4); }
+Variable
+    : VAR IDENTIFIER COLON Expression { $$ = new Variable($2->identifier, $4); }
     ;
 
-VariableDefinition
-    : VAR IDENTIFIER COLON Type { $$ = new VariableDefinition($2->identifier, $4); }
-    ;
+Constructor
+    : THIS LPAREN ArgumentDeclarations RPAREN IS Statements END { $$ = new Constructor($3, $6); }
 
-ConstructorDeclaration
-    : THIS LPAREN ArgumentDeclarations RPAREN IS Statements END { $$ = new ConstructorDeclaration($3, $6); }
-
-MethodDeclaration
-    : METHOD IDENTIFIER LPAREN ArgumentDeclarations RPAREN COLON Type IS Statements END { $$ = new MethodDeclaration($2->identifier, $4, $7, $9); }
+Method
+    : METHOD IDENTIFIER LPAREN ArgumentDeclarations RPAREN COLON Type IS Statements END { $$ = new Method($2->identifier, $4, $7, $9); }
     ;
 
 ArgumentDeclarations
@@ -167,8 +160,7 @@ Statements
     ;
 
 Statement
-    : VariableDefinition  { auto t = new Statement(); *t = $1; $$ = t; }
-    | VariableDeclaration { auto t = new Statement(); *t = $1; $$ = t; }
+    : Variable            { auto t = new Statement(); *t = $1; $$ = t; }
     | Assignment          { auto t = new Statement(); *t = $1; $$ = t; }
     | IfStatement         { auto t = new Statement(); *t = $1; $$ = t; }
     | WhileStatement      { auto t = new Statement(); *t = $1; $$ = t; }
@@ -222,7 +214,7 @@ MethodCall
     ;
 
 Expressions
-    :
+    :                              { $$ = nullptr; } // empty
     | Expression                   { $$ = new Expressions($1); }
     | Expressions COMMA Expression { $$ = $1->add($3); }
     ;
@@ -250,7 +242,6 @@ int yylex(void) {
     Token* t = scanner.get_next_token();
     if (t == nullptr)
         return 0;
-    //std::cout << "token: " << t->toString() << '\n';
     return t->code;
 }
 

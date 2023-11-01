@@ -12,10 +12,11 @@ Program
 ---------Expression with value : a
 ---------Method 'LessEqual' call with args:
 ----------Expressions
------------Expression with value : 94238480546064
--------Statement
---------RETURN
----------Expression with value : 94238480546672
+-----------Expression with value : 1
+-------Statements
+--------Statement
+---------RETURN
+----------Expression with value : 1
 -----Statement
 ------RETURN
 -------Expression with value :
@@ -26,7 +27,7 @@ Program
 -----------Expression with value : a
 -----------Expression with value :
 ------------Compound expression
--------------Expression with value :
+-------------Expression with value : this
 -------------Method 'Factorial' call with args:
 --------------Expressions
 ---------------Expression with value :
@@ -34,15 +35,19 @@ Program
 -----------------Expression with value : a
 -----------------Method 'Minus' call with args:
 ------------------Expressions
--------------------Expression with value : 94238480548416
+-------------------Expression with value : 1
 --Member decl
 ---Constructor
 ----Args
------Arg 'a' of type Integer
 ----Statements
 -----Statement
 ------Var decl : a
 -------Expression with value :
 --------Method 'Factorial' call with args:
 ---------Expressions
-----------Expression with value : 94238480550288
+----------Expression with value : 5
+------Var decl : a
+-------Expression with value :
+--------Method 'Factorial' call with args:
+---------Expressions
+----------Expression with value : 5

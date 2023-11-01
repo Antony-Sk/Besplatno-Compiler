@@ -46,7 +46,7 @@ void print(IfStatement *is, int offset = 0) {
         std::cout << "-";
     std::cout << "IF" << "\n";
     print(is->relation, offset + 1);
-    print(is->statement, offset + 1);
+    print(is->statements, offset + 1);
 }
 
 void print(WhileStatement *ws, int offset = 0) {
@@ -64,15 +64,7 @@ void print(ReturnStatement *rs, int offset = 0) {
     print(rs->expression, offset + 1);
 }
 
-void print(VariableDefinition *vd, int offset = 0) {
-    for (int i = 0; i < offset; i++)
-        std::cout << "-";
-    std::cout << "Var def : " << vd->name << " with type : ";
-    print(vd->type);
-    std::cout << "\n";
-}
-
-void print(VariableDeclaration *vd, int offset = 0) {
+void print(Variable *vd, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Var decl : " << vd->name << "\n";
@@ -83,11 +75,11 @@ void print(Statement *s, int offset) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Statement\n";
-    if (std::holds_alternative<VariableDefinition *>(*s)) {
-        print(std::get<VariableDefinition *>(*s), offset + 1);
+    if (std::holds_alternative<Variable *>(*s)) {
+        print(std::get<Variable *>(*s), offset + 1);
     }
-    if (std::holds_alternative<VariableDeclaration *>(*s)) {
-        print(std::get<VariableDeclaration *>(*s), offset + 1);
+    if (std::holds_alternative<Variable *>(*s)) {
+        print(std::get<Variable *>(*s), offset + 1);
     }
     if (std::holds_alternative<IfStatement *>(*s)) {
         print(std::get<IfStatement *>(*s), offset + 1);
@@ -132,14 +124,24 @@ void print(Expressions *es, int offset = 0) {
 void print(MethodCall *mc, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
-    std::cout << "Method '" << mc->name << "' call with args:\n";
+    std::cout << "Method '" << mc->name << "' call with ";
+    if (mc->arguments == nullptr) {
+        std::cout << "no args\n";
+        return;
+    }
+    std::cout << "args:\n";
     print(mc->arguments, offset + 1);
 }
+
 void print(ConstructorCall *mc, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Constructor of type '";
     print(mc->type);
+    if (mc->arguments == nullptr) {
+        std::cout << "' with no args\n";
+        return;
+    }
     std::cout << "' call with args:\n";
     print(mc->arguments, offset + 1);
 }
@@ -187,7 +189,7 @@ void print(CompoundExpression *ce, int offset) {
     print(ce->methodCall, offset + 1);
 }
 
-void print(ConstructorDeclaration *cd, int offset = 0) {
+void print(Constructor *cd, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Constructor" << "\n";
@@ -195,7 +197,7 @@ void print(ConstructorDeclaration *cd, int offset = 0) {
     print(cd->body, offset + 1);
 }
 
-void print(MethodDeclaration *md, int offset = 0) {
+void print(Method *md, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Method : " << md->name << " with return type : ";
@@ -209,17 +211,14 @@ void print(MemberDeclaration *md, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Member decl" << "\n";
-    if (std::holds_alternative<MethodDeclaration *>(*md)) {
-        print(std::get<MethodDeclaration *>(*md), offset + 1);
+    if (std::holds_alternative<Method *>(*md)) {
+        print(std::get<Method *>(*md), offset + 1);
     }
-    if (std::holds_alternative<ConstructorDeclaration *>(*md)) {
-        print(std::get<ConstructorDeclaration *>(*md), offset + 1);
+    if (std::holds_alternative<Constructor *>(*md)) {
+        print(std::get<Constructor *>(*md), offset + 1);
     }
-    if (std::holds_alternative<VariableDefinition *>(*md)) {
-        print(std::get<VariableDefinition *>(*md), offset + 1);
-    }
-    if (std::holds_alternative<VariableDeclaration *>(*md)) {
-        print(std::get<VariableDeclaration *>(*md), offset + 1);
+    if (std::holds_alternative<Variable *>(*md)) {
+        print(std::get<Variable *>(*md), offset + 1);
     }
 }
 

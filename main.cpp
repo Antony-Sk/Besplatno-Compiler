@@ -1,6 +1,8 @@
 #include "parser.h"
 #include "ast.h"
+#include "src/semantic/semAnalyzer.h"
 #include "astPrinter.h"
+
 extern Program *program;
 
 int main() {
@@ -8,6 +10,7 @@ int main() {
     while (t) {
         t = yyparse();
     }
-    Program* p = program;
-    print(p,0);
+    SemAnalyzer sa;
+    sa.initClasses(program);
+    print(program);
 }

@@ -19,6 +19,7 @@ add_executable(Besplatno_Compiler main.cpp
         src/lex/scanner.cpp
         src/syntax/parser.cpp
         src/lex/lex.cpp
+        src/semantic/semAnalyzer.cpp
 )
 include_directories(src/lex)
 include_directories(src/syntax)

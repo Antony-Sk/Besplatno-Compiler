@@ -1,0 +1,105 @@
+Program
+-Class : Main
+--Member decl
+---Constructor
+----Args
+----Statements
+-----Statement
+------Var decl : res
+-------Expression with value :
+--------Constructor of type 'List[Integer]' with no args
+------Var decl : res
+-------Expression with value :
+--------Constructor of type 'List[Integer]' with no args
+-----Statement
+------Var decl : maxNumber
+-------Expression with value :
+--------Constructor of type 'Integer' call with args:
+---------Expressions
+----------Expression with value : 100
+------Var decl : maxNumber
+-------Expression with value :
+--------Constructor of type 'Integer' call with args:
+---------Expressions
+----------Expression with value : 100
+-----Statement
+------Var decl : i
+-------Expression with value :
+--------Constructor of type 'Integer' call with args:
+---------Expressions
+----------Expression with value : 0
+------Var decl : i
+-------Expression with value :
+--------Constructor of type 'Integer' call with args:
+---------Expressions
+----------Expression with value : 0
+-----Statement
+------WHILE
+-------Expression with value :
+--------Compound expression
+---------Expression with value : i
+---------Method 'Less' call with args:
+----------Expressions
+-----------Expression with value : maxNumber
+-------Statements
+--------Statement
+---------Expression with value :
+----------Compound expression
+-----------Expression with value : res
+-----------Method 'set' call with args:
+------------Expressions
+-------------Expression with value : i
+-------------Expression with value : 0
+-----Statement
+-----Statement
+------WHILE
+-------Expression with value :
+--------Compound expression
+---------Expression with value : i
+---------Method 'Less' call with args:
+----------Expressions
+-----------Expression with value : maxNumber
+-------Statements
+--------Statement
+---------IF
+----------Expression with value :
+-----------Compound expression
+------------Expression with value :
+-------------Compound expression
+--------------Expression with value : res
+--------------Method 'get' call with args:
+---------------Expressions
+----------------Expression with value : i
+------------Method 'Equal' call with args:
+-------------Expressions
+--------------Expression with value : 0
+----------Statements
+-----------Statement
+------------Var decl : j
+-------------Expression with value :
+--------------Constructor of type 'Integer' call with args:
+---------------Expressions
+----------------Expression with value : i
+------------Var decl : j
+-------------Expression with value :
+--------------Constructor of type 'Integer' call with args:
+---------------Expressions
+----------------Expression with value : i
+-----------Statement
+------------WHILE
+-------------Expression with value :
+--------------Compound expression
+---------------Expression with value : j
+---------------Method 'Less' call with args:
+----------------Expressions
+-----------------Expression with value : maxNumber
+-------------Statements
+--------------Statement
+---------------Expression with value :
+----------------Compound expression
+-----------------Expression with value : res
+-----------------Method 'set' call with args:
+------------------Expressions
+-------------------Expression with value : j
+-------------------Expression with value : i
+--------------Statement

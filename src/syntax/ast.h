@@ -77,10 +77,9 @@ struct IfStatement;
 struct WhileStatement;
 struct ReturnStatement;
 struct Assignment;
-struct VariableDefinition;
-struct VariableDeclaration;
+struct Variable;
 
-typedef std::variant<VariableDefinition*, VariableDeclaration*, IfStatement*, WhileStatement*, ReturnStatement*, Assignment*, Expression*> Statement;
+typedef std::variant<Variable*, IfStatement*, WhileStatement*, ReturnStatement*, Assignment*, Expression*> Statement;
 
 struct ReturnStatement {
     Expression *expression;
@@ -109,12 +108,12 @@ struct WhileStatement {
 
 struct IfStatement {
     Relation *relation;
-    Statements *statement;
-    Statements *elseStatement;
+    Statements *statements;
+    Statements *elseStatements;
 
     IfStatement(Relation *relation, Statements *statement, Statements *elseStatement) : relation(relation),
-                                                                                      statement(statement),
-                                                                                      elseStatement(elseStatement) {}
+                                                                                        statements(statement),
+                                                                                        elseStatements(elseStatement) {}
 };
 
 struct Assignment {
@@ -145,37 +144,30 @@ struct Arguments {
     explicit Arguments(Argument *arg) { args = {arg}; }
 };
 
-struct VariableDeclaration {
+struct Variable {
     std::string name;
     Expression *expression;
 
-    VariableDeclaration(std::string& name, Expression *expression) : expression(expression), name(name) {}
+    Variable(std::string& name, Expression *expression) : expression(expression), name(name) {}
 };
 
-struct VariableDefinition {
-    std::string name;
-    Type *type;
-
-    VariableDefinition(std::string& name, Type *type) : type(type), name(name) {}
-};
-
-struct MethodDeclaration {
+struct Method {
     std::string name;
     Arguments *arguments;
     Type* returnType;
     Statements *body;
 
-    MethodDeclaration(std::string& name, Arguments *arguments, Type* returnType, Statements *body) : name(name), arguments(arguments), returnType(returnType), body(body) {}
+    Method(std::string& name, Arguments *arguments, Type* returnType, Statements *body) : name(name), arguments(arguments), returnType(returnType), body(body) {}
 };
 
-struct ConstructorDeclaration {
+struct Constructor {
     Arguments *arguments;
     Statements *body;
 
-    ConstructorDeclaration(Arguments *arguments, Statements *body) : arguments(arguments), body(body) {}
+    Constructor(Arguments *arguments, Statements *body) : arguments(arguments), body(body) {}
 };
 
-typedef std::variant<VariableDefinition*, VariableDeclaration*, MethodDeclaration*, ConstructorDeclaration*> MemberDeclaration;
+typedef std::variant<Variable*, Method*, Constructor*> MemberDeclaration;
 
 struct MemberDeclarations {
     std::vector<MemberDeclaration *> decls;

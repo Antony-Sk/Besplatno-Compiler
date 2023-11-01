@@ -1,6 +1,6 @@
 class Main is
     this() is
-        var res : List[Integer]
+        var res : List[Integer]()
         var maxNumber : Integer(100)
         var i : Integer(0)
         while i.Less(maxNumber) loop

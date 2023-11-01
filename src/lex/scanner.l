@@ -68,7 +68,7 @@ true|false {
     return token;
 }
 
-var|method|is|end|this|class|extends|return|while|if|loop|then {
+var|method|is|end|this|class|extends|return|while|if|loop|then|else {
     Keyword* token = new Keyword();
     if (strcmp(yytext, "var") == 0) {
         token->code = VAR;
@@ -94,6 +94,8 @@ var|method|is|end|this|class|extends|return|while|if|loop|then {
         token->code = LOOP;
     } else if (strcmp(yytext, "then") == 0) {
         token->code = THEN;
+    } else if (strcmp(yytext, "else") == 0) {
+        token->code = ELSE;
     }
     token->keyword = yytext;
     token->span.lineNum = _lineNum;
@@ -116,7 +118,7 @@ var|method|is|end|this|class|extends|return|while|if|loop|then {
     return token;
 }
 
-^\/\/[^\n\r]+(?:[\n\r]|\*\))$ {
+\/\/[^\n\r]+?(?:\*\)|[\n\r]) {
     /* ignore comments */
 }
 

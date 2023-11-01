@@ -2,7 +2,7 @@
 
 Pass your program through a pipe:
 ```
-$ cat examples/programs/Inheritance.opl | ./cmake-build-debug/Besplatno_Compiler 
+$ cat examples/programs/Inheritance.opl | ./Besplatno_Compiler 
 Program
 -Class : Main
 --Member decl
@@ -22,9 +22,19 @@ Program
 ## Lexical part
 
 Todo on lexical part:
-* Comments are buggy, test it
+* Known bugs:
+  * The last line of file contains comment: syntax error
 
 ## Syntax part
 Todo
 * Check on bugs
 * More example maybe
+
+## Semantic part
+Ready
+* Cycling inheritance is forbidden
+* Redeclaration of class is forbidden
+* Overriding members
+Todo:
+* Type checking on functions
+* Generics
