@@ -37,6 +37,7 @@ Ready
 * Overriding members
 * Type checking
 * Naming checking
+
 Todo:
 * Recursive var having (e.g. "int" cannot contain "int")
 * Generics !!!!!!! GENERICS !!!!!
