@@ -26,7 +26,6 @@
   CompoundExpression* cexp;
   Expression* exp;
   MethodCall* metcall;
-  ConstructorCall* cstcall;
   Expressions* exps;
   Keyword* keyword;
   Delimiter* delimiter;
@@ -34,7 +33,6 @@
   BooleanLit* booleanLit;
   IntegerLit* integerLit;
   RealLit*    realLit;
-  TypeToken* typetk;
   Type* type;
   Types* types;
 }
@@ -59,10 +57,8 @@
 %type <cexp>        CompoundExpression
 %type <exp>         Expression
 %type <metcall>     MethodCall
-%type <cstcall>     ConstructorCall
 %type <exps>        Expressions
 %type <exp>         Relation
-%type <typetk>      TypeToken
 %type <type>        Type
 %type <types>       Types
 
@@ -93,10 +89,6 @@
 %token <booleanLit>    BOOLLITERAL
 %token <integerLit>    INTEGERLITERAL
 %token <realLit>       REALLITERAL
-%token <typetk>        REAL
-%token <typetk>        INTEGER
-%token <typetk>        BOOLEAN
-%token <typetk>        ARRAY
 
 %start                 Program
 
@@ -191,9 +183,8 @@ Expression
     | REALLITERAL        { auto t = new Expression(); *t = $1; $$ = t; }
     | BOOLLITERAL        { auto t = new Expression(); *t = $1; $$ = t; }
     | THIS               { auto t = new Expression(); *t = $1; $$ = t; }
-    | IDENTIFIER         { auto t = new Expression(); *t = $1->identifier; $$ = t; }
+    | IDENTIFIER         { auto t = new Expression(); *t = $1->identifier; $$ = t; } // variable
     | MethodCall         { auto t = new Expression(); *t = $1; $$ = t; }
-    | ConstructorCall    { auto t = new Expression(); *t = $1; $$ = t; }
     | CompoundExpression { auto t = new Expression(); *t = $1; $$ = t; }
     ;
 
@@ -205,12 +196,8 @@ Relation
     : Expression { $$ = $1; }
     ;
 
-ConstructorCall
-    : Type LPAREN Expressions RPAREN       { $$ = new ConstructorCall($1, $3); }
-    ;
-
 MethodCall
-    : IDENTIFIER LPAREN Expressions RPAREN { $$ = new MethodCall($1->identifier, $3); }
+    : Type LPAREN Expressions RPAREN { $$ = new MethodCall($1, $3); }
     ;
 
 Expressions
@@ -220,10 +207,7 @@ Expressions
     ;
 
 Type
-    : INTEGER                            { $$ = new Type($1, nullptr); }
-    | BOOLEAN                            { $$ = new Type($1, nullptr); }
-    | REAL                               { $$ = new Type($1, nullptr); }
-    | IDENTIFIER                         { $$ = new Type($1->identifier, nullptr); }
+    : IDENTIFIER                         { $$ = new Type($1->identifier, nullptr); }
     | IDENTIFIER LBRACKET Types RBRACKET { $$ = new Type($1->identifier, $3); }
     ;
 

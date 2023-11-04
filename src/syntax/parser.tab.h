@@ -80,11 +80,7 @@ extern int yydebug;
     ASSIGNMENTOPERATOR = 281,      /* ASSIGNMENTOPERATOR  */
     BOOLLITERAL = 282,             /* BOOLLITERAL  */
     INTEGERLITERAL = 283,          /* INTEGERLITERAL  */
-    REALLITERAL = 284,             /* REALLITERAL  */
-    REAL = 285,                    /* REAL  */
-    INTEGER = 286,                 /* INTEGER  */
-    BOOLEAN = 287,                 /* BOOLEAN  */
-    ARRAY = 288                    /* ARRAY  */
+    REALLITERAL = 284              /* REALLITERAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -117,7 +113,6 @@ union value
   CompoundExpression* cexp;
   Expression* exp;
   MethodCall* metcall;
-  ConstructorCall* cstcall;
   Expressions* exps;
   Keyword* keyword;
   Delimiter* delimiter;
@@ -125,11 +120,10 @@ union value
   BooleanLit* booleanLit;
   IntegerLit* integerLit;
   RealLit*    realLit;
-  TypeToken* typetk;
   Type* type;
   Types* types;
 
-#line 132 "parser.tab.h"
+#line 126 "parser.tab.h"
 
 };
 #line 8 "parser.y"

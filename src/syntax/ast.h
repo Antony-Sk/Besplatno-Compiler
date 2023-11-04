@@ -13,14 +13,15 @@
 
 struct CompoundExpression;
 struct MethodCall;
-struct ConstructorCall;
 struct Types;
 
 struct Type {
-    std::variant<TypeToken*, std::string> base;
+    std::string base;
     Types* generics;
 
-    Type(const std::variant<TypeToken*, std::string> &base, Types *generics) : base(base), generics(generics) {}
+    Type(const std::string &base, Types *generics) : base(base), generics(generics) {}
+    bool operator==(const Type &other) const;
+    std::string toString();
 };
 
 struct Types {
@@ -31,9 +32,12 @@ struct Types {
         types.push_back(type);
         return this;
     }
+    bool operator==(const Types &other) const;
+
+    std::string toString();
 };
 
-typedef std::variant<IntegerLit*, BooleanLit*, RealLit*, std::string, MethodCall*, ConstructorCall*, CompoundExpression*, Keyword*> Expression;
+typedef std::variant<IntegerLit*, BooleanLit*, RealLit*, std::string, MethodCall*, CompoundExpression*, Keyword*> Expression;
 
 struct Expressions {
     std::vector<Expression *> exps;
@@ -49,17 +53,10 @@ struct Expressions {
 };
 
 struct MethodCall {
-    std::string name;
+    Type* name;
     Expressions *arguments;
 
-    MethodCall(std::string& name, Expressions *arguments) : name(name), arguments(arguments) {}
-};
-
-struct ConstructorCall {
-    Type* type;
-    Expressions *arguments;
-
-    ConstructorCall(Type* type, Expressions *arguments) : type(type), arguments(arguments) {}
+    MethodCall(Type* type, Expressions *arguments) : name(type), arguments(arguments) {}
 };
 
 
@@ -129,6 +126,10 @@ struct Argument {
     Type* type;
 
     Argument(std::string& name, Type* type) : name(name), type(type) {}
+
+    bool operator==(const Argument&arg) const {
+        return (name == arg.name) && (*type == *arg.type);
+    }
 };
 
 struct Arguments {
@@ -142,6 +143,24 @@ struct Arguments {
     Arguments() : args() {};
 
     explicit Arguments(Argument *arg) { args = {arg}; }
+
+    bool operator==(const Arguments& other) const {
+        if (args.size() != other.args.size())
+            return false;
+        for (int i = 0; i < args.size(); i++) {
+            if (*args[i] != *other.args[i])
+                return false;
+        }
+        return true;
+    }
+
+    [[nodiscard]] std::string extractTypesAsString() const {
+        std::string res;
+        for (const auto arg: args) {
+            res += arg->type->toString() + '&';
+        }
+        return res;
+    }
 };
 
 struct Variable {

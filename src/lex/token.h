@@ -6,6 +6,7 @@
 #define BESPLATNO_COMPILER_TOKEN_H
 
 #include <string>
+#include <utility>
 typedef union value YYSTYPE;
 
 struct Token {
@@ -49,14 +50,6 @@ struct BooleanLit : Token {
     bool value;
     std::string toString() override {
         return "Boolean literal token \'" + std::to_string(value) + "\'";
-    }
-    void setYylval(YYSTYPE&) override;
-};
-
-struct TypeToken : Token {
-    std::string type;
-    std::string toString() override {
-        return "Keyword token \'" + type + "\'";
     }
     void setYylval(YYSTYPE&) override;
 };

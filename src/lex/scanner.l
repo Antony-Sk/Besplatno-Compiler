@@ -9,25 +9,6 @@ int _posInLine = 0;
 %option c++
 %option yyclass="Scanner"
 %%
-Integer|Boolean|Real|Array {
-    TypeToken *type = new TypeToken();
-    type->type = yytext;
-    if (strcmp(yytext, "Integer"))
-        type->code = INTEGER;
-    else if (strcmp(yytext, "Boolean"))
-        type->code = BOOLEAN;
-    else if (strcmp(yytext, "Real"))
-        type->code = REAL;
-    else if (strcmp(yytext, "Array"))
-        type->code = ARRAY;
-    type->span.lineNum = _lineNum;
-    type->span.posBegin = _posInLine;
-    _posInLine += strlen(yytext);
-    type->span.posEnd = _posInLine;
-    type->setYylval(yylval);
-    return type;
-}
-
 true|false {
     BooleanLit* token = new BooleanLit();
     token->code = BOOLLITERAL;

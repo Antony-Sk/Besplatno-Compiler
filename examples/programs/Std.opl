@@ -1,0 +1,9 @@
+class Boolean is end
+class Integer is
+    method LessEqual(a:Integer):Boolean is end
+    method Multiply(a:Integer,b:Integer) : Integer is end
+    method Minus(a:Integer):Integer is end
+    method Plus(a:Integer):Integer is end
+end
+class Real is end
+class Array[T] is end

@@ -10,7 +10,7 @@ int main() {
     while (t) {
         t = yyparse();
     }
-    SemAnalyzer sa;
-    sa.initClasses(program);
+    SemAnalyzer sa(*program);
+    sa.checkTypes();
     print(program);
 }

@@ -9,15 +9,7 @@
 
 void print(Types*);
 void print(Type* t) {
-    if (std::holds_alternative<std::string>(t->base)) {
-        std::cout << std::get<std::string>(t->base);
-    }
-    if (std::holds_alternative<TypeToken*>(t->base)) {
-        std::cout << std::get<TypeToken*>(t->base)->type;
-    }
-    if (t->generics == nullptr)
-        return;
-    print(t->generics);
+    std::cout << t->toString();
 }
 void print(Types* t) {
     std::cout << "[";
@@ -78,9 +70,6 @@ void print(Statement *s, int offset) {
     if (std::holds_alternative<Variable *>(*s)) {
         print(std::get<Variable *>(*s), offset + 1);
     }
-    if (std::holds_alternative<Variable *>(*s)) {
-        print(std::get<Variable *>(*s), offset + 1);
-    }
     if (std::holds_alternative<IfStatement *>(*s)) {
         print(std::get<IfStatement *>(*s), offset + 1);
     }
@@ -124,25 +113,12 @@ void print(Expressions *es, int offset = 0) {
 void print(MethodCall *mc, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
-    std::cout << "Method '" << mc->name << "' call with ";
+    std::cout << "Method '" << mc->name->toString() << "' call with ";
     if (mc->arguments == nullptr) {
         std::cout << "no args\n";
         return;
     }
     std::cout << "args:\n";
-    print(mc->arguments, offset + 1);
-}
-
-void print(ConstructorCall *mc, int offset = 0) {
-    for (int i = 0; i < offset; i++)
-        std::cout << "-";
-    std::cout << "Constructor of type '";
-    print(mc->type);
-    if (mc->arguments == nullptr) {
-        std::cout << "' with no args\n";
-        return;
-    }
-    std::cout << "' call with args:\n";
     print(mc->arguments, offset + 1);
 }
 
@@ -167,10 +143,6 @@ void print(Expression *e, int offset) {
     if (std::holds_alternative<MethodCall *>(*e)) {
         std::cout << "\n";
         print(std::get<MethodCall *>(*e), offset + 1);
-    }
-    if (std::holds_alternative<ConstructorCall *>(*e)) {
-        std::cout << "\n";
-        print(std::get<ConstructorCall *>(*e), offset + 1);
     }
     if (std::holds_alternative<CompoundExpression *>(*e)) {
         std::cout << "\n";
@@ -225,9 +197,7 @@ void print(MemberDeclaration *md, int offset = 0) {
 void print(ClassDeclaration *cd, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
-    std::cout << "Class : " << std::get<std::string>(cd->type->base);
-    if (cd->type->generics != nullptr)
-        print(cd->type->generics);
+    std::cout << "Class : " << cd->type->toString();
     if (cd->extends != nullptr) {
         std::cout << " extends: ";
         print(cd->extends);
