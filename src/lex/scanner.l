@@ -101,6 +101,7 @@ var|method|is|end|this|class|extends|return|while|if|loop|then|else {
 
 \/\/[^\n\r]+?(?:\*\)|[\n\r]) {
     /* ignore comments */
+    _lineNum++; _posInLine = 0;
 }
 
 \{|\}|\[|\]|\(|\)|:=|,|\.|: { // Maybe forgot smt

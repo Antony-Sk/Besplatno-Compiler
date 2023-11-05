@@ -22,7 +22,7 @@ SemAnalyzer::SemAnalyzer(const Program &p) { // Todo: generics work incorrectly 
     }
     std::unordered_map<std::string, int> cycleColor;
     std::function<void(ClassDeclaration *)> dfs = [&](ClassDeclaration *cd) {
-        if (cycleColor.contains(names[cd]))
+        if (cycleColor[names[cd]] != 0)
             return;
         cycleColor[names[cd]] = 1;
         Class *base = nullptr;
@@ -66,10 +66,11 @@ std::string SemAnalyzer::getTypeFromExp(const Class& context, const Expression& 
             error("Unknown symbol: " + s);
         }
         std::string operator()(MethodCall *v) {
-            if (context.methods.contains(v->name->toString())) { // Plain function
-                if (sa.matchExpsAndArgs(v->arguments, context.methods.at(v->name->toString())->arguments, context))
-                    return context.methods.at(v->name->toString())->returnType->toString();
-                error("Wrong parameters on call '" + v->name->toString() + "' with such args");
+            std::string id = v->name->toString() + "&" + sa.getTypeFromExps(context, *v->arguments);
+            if (context.methods.contains(id)) { // Plain function
+                if (sa.matchExpsAndArgs(v->arguments, context.methods.at(id)->arguments, context))
+                    return context.methods.at(id)->returnType->toString();
+                error("No method '" + id + "'");
             }
             if (sa.classes.contains(v->name->toString())) { // Constructor
                 std::string argsTypes;
@@ -86,7 +87,7 @@ std::string SemAnalyzer::getTypeFromExp(const Class& context, const Expression& 
         }
         std::string operator()(CompoundExpression *v) {
             std::string type = std::visit(*this, *v->expression);
-            std::string methodName = v->methodCall->name->toString();
+            std::string methodName = v->methodCall->name->toString() + "&" + sa.getTypeFromExps(context, *v->methodCall->arguments);
             const auto& ms = sa.classes.at(type).methods;
             if (ms.contains(methodName)) {
                 if (sa.matchExpsAndArgs(v->methodCall->arguments, ms.at(methodName)->arguments, context)) {
@@ -94,7 +95,7 @@ std::string SemAnalyzer::getTypeFromExp(const Class& context, const Expression& 
                 }
                 error("No method '" + methodName + "' with such args types");
             }
-            error("No method '" + methodName + "' in class '" + type);
+            error("No method '" + methodName + "' in class '" + type + "'");
         }
     } visitor(context, *this);
     return std::visit(visitor, e);
@@ -132,7 +133,7 @@ void SemAnalyzer::checkTypes() {
             sa.getTypeFromExp(context, *s->expression);
         }
         void operator()(Assignment*s) {
-            if (!sa.symbols.contains(s->identifier) && !sa.vars.contains(s->identifier))
+            if (!sa.symbols.contains(s->identifier) && !context.members.contains(s->identifier))
                 error("No such variable " + s->identifier);
         }
         void operator()(Expression*e) {
@@ -146,14 +147,14 @@ void SemAnalyzer::checkTypes() {
             if (!classes.contains(met->returnType->toString()))
                 error("Class '" + met->returnType->toString() + "' is undefined");
             symbols.clear();
-            if (met->arguments != nullptr)
-                for (const auto &arg: met->arguments->args) {
-                    if (!classes.contains(arg->type->toString()))
-                        error("Class '" + arg->type->toString() + "' is undefined");
-                    if (symbols.contains(arg->name))
-                        error("Args names are the same '" + arg->name + "' for method '" + metName + "'");
-                    symbols.emplace(arg->name, arg->type->toString());
-                }
+            std::string id = metName + "&" + met->arguments->extractTypesAsString();
+            for (const auto &arg: met->arguments->args) {
+                if (!classes.contains(arg->type->toString()))
+                    error("Class '" + arg->type->toString() + "' is undefined");
+                if (symbols.contains(arg->name))
+                    error("Args names are the same '" + arg->name + "' for method '" + id + "'");
+                symbols.emplace(arg->name, arg->type->toString());
+            }
             for (Statement* stm: met->body->stmts) {
                 std::visit(visitor, *stm);
             }
@@ -216,9 +217,10 @@ void SemAnalyzer::Class::initMembers(const std::unordered_set<std::string> &clas
             vars[vd->name] = vd;
         }
         void operator()(Method *vd) {
-            if (vars.contains(vd->name) || mds.contains(vd->name) || classesNames.contains(vd->name))
-                error("Redeclaration of method " + vd->name);
-            mds[vd->name] = vd;
+            std::string id = vd->name + "&" + vd->arguments->extractTypesAsString();
+            if (vars.contains(id) || mds.contains(id) || classesNames.contains(id))
+                error("Redeclaration of method " + id);
+            mds[id] = vd;
         }
         void operator()(Constructor *vd) {
             if (css.contains(vd->arguments->extractTypesAsString()))

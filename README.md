@@ -35,6 +35,7 @@ Ready
 * Cycling inheritance is forbidden
 * Redeclaration of class is forbidden
 * Overriding members
+* Overloading functions and constructors
 * Type checking
 * Naming checking
 
@@ -42,6 +43,7 @@ Todo:
 * Recursive var having (e.g. "int" cannot contain "int")
 * Generics !!!!!!! GENERICS !!!!!
 * Std
+* Opts if I will have time 
 
 ## General TODOs:
 * More exhaustive example

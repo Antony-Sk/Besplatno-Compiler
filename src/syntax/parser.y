@@ -201,7 +201,7 @@ MethodCall
     ;
 
 Expressions
-    :                              { $$ = nullptr; } // empty
+    :                              { $$ = new Expressions(); } // empty
     | Expression                   { $$ = new Expressions($1); }
     | Expressions COMMA Expression { $$ = $1->add($3); }
     ;

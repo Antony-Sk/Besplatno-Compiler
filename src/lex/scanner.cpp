@@ -795,11 +795,12 @@ YY_RULE_SETUP
 #line 102 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 {
     /* ignore comments */
+    _lineNum++; _posInLine = 0;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 106 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
+#line 107 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 { // Maybe forgot smt
     Delimiter* token = new Delimiter();
     if (strcmp(yytext, "{") == 0) {
@@ -833,22 +834,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 137 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
+#line 138 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 { _posInLine += strlen(yytext); }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 139 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
+#line 140 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 { _lineNum++; _posInLine = 0; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 141 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
+#line 142 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 {}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 143 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
+#line 144 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 {
     Delimiter* token = new Delimiter();
     token->code = YYEMPTY;
@@ -857,10 +858,10 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 149 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
+#line 150 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 863 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.cpp"
+#line 864 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1821,5 +1822,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 149 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
+#line 150 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
 

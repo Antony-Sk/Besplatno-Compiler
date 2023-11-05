@@ -1556,7 +1556,7 @@ yyreduce:
 
   case 46: /* Expressions: %empty  */
 #line 204 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                   { (yyval.exps) = nullptr; }
+                                   { (yyval.exps) = new Expressions(); }
 #line 1561 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 

@@ -15,7 +15,7 @@ class SemAnalyzer {
         const std::string name;
         const Class *base;
         std::unordered_map<std::string, Constructor *> constructors;
-        std::unordered_map<std::string, Method *> methods;
+        std::unordered_map<std::string, Method *> methods; // "name&type1&type2&...typeN&" -> Var*
         std::unordered_map<std::string, Variable *> members;
         const ClassDeclaration &classDeclaration;
 
@@ -28,7 +28,6 @@ public:
     static void error(const std::string &msg);
     void checkTypes();
 private:
-    std::unordered_map<std::string, Variable *> vars;
     std::unordered_map<std::string, Class> classes;
     std::unordered_map<std::string, std::string> symbols;
     std::string getTypeFromExp(const Class& context, const Expression& e) const;

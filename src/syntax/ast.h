@@ -50,6 +50,8 @@ struct Expressions {
     explicit Expressions(Expression *exp) {
         exps = {exp};
     }
+
+    Expressions() = default;
 };
 
 struct MethodCall {
