@@ -7,11 +7,13 @@
 
 #include "ast.h"
 
-void print(Types*);
-void print(Type* t) {
+void print(Types *);
+
+void print(Type *t) {
     std::cout << t->toString();
 }
-void print(Types* t) {
+
+void print(Types *t) {
     std::cout << "[";
     for (int i = 0; i < t->types.size() - 1; i++) {
         print(t->types[i]);
@@ -21,6 +23,7 @@ void print(Types* t) {
         print(t->types.back());
     std::cout << "]";
 }
+
 void print(Expression *e, int offset = 0);
 
 void print(Statement *s, int offset = 0);
@@ -33,6 +36,7 @@ void print(Statements *sts, int offset = 0) {
         print(s, offset + 1);
     }
 }
+
 void print(IfStatement *is, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
@@ -63,25 +67,39 @@ void print(Variable *vd, int offset = 0) {
     print(vd->expression, offset + 1);
 }
 
+void print(Assignment *vd, int offset = 0) {
+    for (int i = 0; i < offset; i++)
+        std::cout << "-";
+    std::cout << "Var assignment : " << vd->identifier << " with exp:\n";
+    print(vd->expression, offset + 1);
+}
+
 void print(Statement *s, int offset) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Statement\n";
-    if (std::holds_alternative<Variable *>(*s)) {
-        print(std::get<Variable *>(*s), offset + 1);
-    }
-    if (std::holds_alternative<IfStatement *>(*s)) {
-        print(std::get<IfStatement *>(*s), offset + 1);
-    }
-    if (std::holds_alternative<WhileStatement *>(*s)) {
-        print(std::get<WhileStatement *>(*s), offset + 1);
-    }
-    if (std::holds_alternative<ReturnStatement *>(*s)) {
-        print(std::get<ReturnStatement *>(*s), offset + 1);
-    }
-    if (std::holds_alternative<Expression *>(*s)) {
-        print(std::get<Expression *>(*s), offset + 1);
-    }
+    struct Visitor {
+        int offset;
+
+        void operator()(Variable *v) { print(v, offset + 1); }
+
+        void operator()(IfStatement *v) { print(v, offset + 1); }
+
+        void operator()(ReturnStatement *v) { print(v, offset + 1); }
+
+        void operator()(WhileStatement *v) { print(v, offset + 1); }
+
+        void operator()(Expression *v) { print(v, offset + 1); }
+
+        void operator()(Assignment *v) { print(v, offset + 1); }
+
+        void operator()(Keyword *v) {
+            for (int i = 0; i <= offset; i++)
+                std::cout << "-";
+            std::cout << "Break\n";
+        }
+    } visitor{offset};
+    std::visit(visitor, *s);
 }
 
 void print(Argument *arg, int offset = 0) {
@@ -128,29 +146,30 @@ void print(Expression *e, int offset) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Expression with value : ";
-    if (std::holds_alternative<IntegerLit *>(*e)) {
-        std::cout << std::get<IntegerLit *>(*e)->value << "\n";
-    }
-    if (std::holds_alternative<RealLit *>(*e)) {
-        std::cout << std::get<RealLit *>(*e)->value << "\n";
-    }
-    if (std::holds_alternative<BooleanLit *>(*e)) {
-        std::cout << std::get<BooleanLit *>(*e)->value << "\n";
-    }
-    if (std::holds_alternative<std::string>(*e)) {
-        std::cout << std::get<std::string>(*e) << "\n";
-    }
-    if (std::holds_alternative<MethodCall *>(*e)) {
-        std::cout << "\n";
-        print(std::get<MethodCall *>(*e), offset + 1);
-    }
-    if (std::holds_alternative<CompoundExpression *>(*e)) {
-        std::cout << "\n";
-        print(std::get<CompoundExpression *>(*e), offset + 1);
-    }
-    if (std::holds_alternative<Keyword *>(*e)) {
-        std::cout << std::get<Keyword *>(*e)->keyword << "\n";
-    }
+    struct Visitor {
+        int offset;
+
+        void operator()(IntegerLit *v) { std::cout << v->value << "\n"; }
+
+        void operator()(RealLit *v) { std::cout << v->value << "\n"; }
+
+        void operator()(BooleanLit *v) { std::cout << v->value << "\n"; }
+
+        void operator()(const std::pair<std::string, Span> &p) { std::cout << p.first << '\n'; }
+
+        void operator()(MethodCall *v) {
+            std::cout << "\n";
+            print(v, offset + 1);
+        }
+
+        void operator()(Keyword *v) { std::cout << v->keyword << "\n"; }
+
+        void operator()(CompoundExpression *v) {
+            std::cout << "\n";
+            print(v, offset + 1);
+        }
+    } visitor{offset};
+    std::visit(visitor, *e);
 }
 
 void print(CompoundExpression *ce, int offset) {
@@ -183,15 +202,7 @@ void print(MemberDeclaration *md, int offset = 0) {
     for (int i = 0; i < offset; i++)
         std::cout << "-";
     std::cout << "Member decl" << "\n";
-    if (std::holds_alternative<Method *>(*md)) {
-        print(std::get<Method *>(*md), offset + 1);
-    }
-    if (std::holds_alternative<Constructor *>(*md)) {
-        print(std::get<Constructor *>(*md), offset + 1);
-    }
-    if (std::holds_alternative<Variable *>(*md)) {
-        print(std::get<Variable *>(*md), offset + 1);
-    }
+    std::visit([offset](auto t) { print(t, offset + 1); }, *md);
 }
 
 void print(ClassDeclaration *cd, int offset = 0) {

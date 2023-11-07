@@ -1,18 +1,25 @@
+class Integer is
+    this() is end
+end
+
 class A is
     var a : Integer()
+    method setA(v: Integer) : Integer is
+        a := v
+    end
 end
 
 class B extends A is
     var b : Integer()
     this(x : Integer, y : Integer) is
-	a := x
-	b := y
+        a := x
+        b := y
     end
 end
 
 class Main is
     this() is
         var x : B(1, 2)
-        x.set(a)
+        x.setA(1)
     end
 end

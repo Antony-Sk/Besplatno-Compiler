@@ -11,24 +11,19 @@ Program
 ---------Expressions
 ----------Expression with value : 1
 ----------Expression with value : 2
-------Var decl : x
--------Expression with value :
---------Method 'B' call with args:
----------Expressions
-----------Expression with value : 1
-----------Expression with value : 2
 -----Statement
 ------Expression with value :
 -------Compound expression
 --------Expression with value : x
---------Method 'set' call with args:
+--------Method 'setA' call with args:
 ---------Expressions
-----------Expression with value : a
+----------Expression with value : 1
 -Class : B extends: A
 --Member decl
 ---Var decl : b
 ----Expression with value :
------Constructor of type 'Integer' with no args
+-----Method 'Integer' call with args:
+------Expressions
 --Member decl
 ---Constructor
 ----Args
@@ -41,4 +36,11 @@ Program
 --Member decl
 ---Var decl : a
 ----Expression with value :
------Constructor of type 'Integer' with no args
+-----Method 'Integer' call with args:
+------Expressions
+--Member decl
+---Method : setA with return type : Integer
+----Args
+-----Arg 'v' of type Integer
+----Statements
+-----Statement

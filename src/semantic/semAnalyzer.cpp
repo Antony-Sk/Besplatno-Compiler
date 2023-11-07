@@ -14,7 +14,7 @@ SemAnalyzer::SemAnalyzer(const Program &p) { // Todo: generics work incorrectly 
     for (auto cd: p.classDecls->decls) {
         className = cd->type->toString();
         if (cds.contains(className)) {
-            error("Redeclaration of class " + className);
+            error("Redeclaration of class " + className, cd->type->span);
         }
         names[cd] = className;
         cds[className] = cd;
@@ -29,7 +29,7 @@ SemAnalyzer::SemAnalyzer(const Program &p) { // Todo: generics work incorrectly 
         if (cd->extends != nullptr) {
             className = cd->extends->toString();
             if (cycleColor[className] == 1) {
-                error("Cycling inheritance class " + className);
+                error("Cycling inheritance class " + className, cd->extends->span);
             }
             if (!classes.contains(className)) {
                 dfs(cds[className]);
@@ -45,32 +45,39 @@ SemAnalyzer::SemAnalyzer(const Program &p) { // Todo: generics work incorrectly 
     }
 }
 
-void SemAnalyzer::error(const std::string &msg) {
-    std::cout << msg;
+void SemAnalyzer::error(const std::string &msg, const Span &span) {
+    std::cout << msg << " " << span.toString();
     exit(-1);
 }
 
-std::string SemAnalyzer::getTypeFromExp(const Class& context, const Expression& e) const {
+std::string SemAnalyzer::getTypeFromExp(const Class &context, const Expression &e) const {
     struct Visitor {
-        const Class& context;
+        const Class &context;
         const SemAnalyzer &sa;
+
         Visitor(const Class &context, const SemAnalyzer &sa) : context(context), sa(sa) {}
-        std::string operator()(IntegerLit *v) { return "Integer";}
-        std::string operator()(RealLit *v) {return "Real";}
-        std::string operator()(BooleanLit *v) {return "Boolean";}
-        std::string operator()(const std::string &s) { // Variable case
+
+        std::string operator()(IntegerLit *v) { return "Integer"; }
+
+        std::string operator()(RealLit *v) { return "Real"; }
+
+        std::string operator()(BooleanLit *v) { return "Boolean"; }
+
+        std::string operator()(const std::pair<std::string, Span> &p) { // Variable case
+            const auto&[s, sp] = p;
             if (sa.symbols.contains(s)) // Local
                 return sa.symbols.at(s);
             if (context.members.contains(s)) // Global
                 return std::visit(*this, *context.members.at(s)->expression);
-            error("Unknown symbol: " + s);
+            error("Unknown symbol: " + s, sp);
         }
+
         std::string operator()(MethodCall *v) {
             std::string id = v->name->toString() + "&" + sa.getTypeFromExps(context, *v->arguments);
             if (context.methods.contains(id)) { // Plain function
                 if (sa.matchExpsAndArgs(v->arguments, context.methods.at(id)->arguments, context))
                     return context.methods.at(id)->returnType->toString();
-                error("No method '" + id + "'");
+                error("No method '" + id + "'", v->span);
             }
             if (sa.classes.contains(v->name->toString())) { // Constructor
                 std::string argsTypes;
@@ -78,24 +85,27 @@ std::string SemAnalyzer::getTypeFromExp(const Class& context, const Expression& 
                     argsTypes = sa.getTypeFromExps(context, *v->arguments);
                 if (sa.classes.at(v->name->toString()).constructors.contains(argsTypes))
                     return v->name->toString();
-                error("No constructor with such parameters of class '" + v->name->toString() + "'");
+                error("No constructor with such parameters of class '" + v->name->toString() + "'", v->span);
             }
-            error("No such method or constructor :" + v->name->toString());
+            error("No such method or type : " + v->name->toString(), v->span);
         }
+
         std::string operator()(Keyword *v) { // "this"
             return context.name;
         }
+
         std::string operator()(CompoundExpression *v) {
             std::string type = std::visit(*this, *v->expression);
-            std::string methodName = v->methodCall->name->toString() + "&" + sa.getTypeFromExps(context, *v->methodCall->arguments);
-            const auto& ms = sa.classes.at(type).methods;
+            std::string methodName =
+                    v->methodCall->name->toString() + "&" + sa.getTypeFromExps(context, *v->methodCall->arguments);
+            const auto &ms = sa.classes.at(type).methods;
             if (ms.contains(methodName)) {
                 if (sa.matchExpsAndArgs(v->methodCall->arguments, ms.at(methodName)->arguments, context)) {
                     return ms.at(methodName)->returnType->toString();
                 }
-                error("No method '" + methodName + "' with such args types");
+                error("No method '" + methodName + "' with such args types", v->methodCall->span);
             }
-            error("No method '" + methodName + "' in class '" + type + "'");
+            error("No method '" + methodName + "' in class '" + type + "'", v->methodCall->span);
         }
     } visitor(context, *this);
     return std::visit(visitor, e);
@@ -103,81 +113,95 @@ std::string SemAnalyzer::getTypeFromExp(const Class& context, const Expression& 
 
 void SemAnalyzer::checkTypes() {
     struct Visitor {
-        SemAnalyzer& sa;
-        const Class& context;
+        SemAnalyzer &sa;
+        const Class &context;
+        bool inCycle = false;
+
         Visitor(SemAnalyzer &sa, const Class &context) : sa(sa), context(context) {}
-        void operator()(Variable* v) {
+
+        void operator()(Variable *v) {
             if (sa.symbols.contains(v->name))
-                error("Redeclaration of var " + v->name);
+                error("Redeclaration of var " + v->name, v->span);
             if (sa.classes.contains(v->name) || context.methods.contains(v->name))
-                error("Name of var cannot be name of class of method: " + v->name);
+                error("Name of var cannot be name of class of method: " + v->name, v->span);
             sa.symbols[v->name] = sa.getTypeFromExp(context, *v->expression);
         }
-        void operator()(IfStatement* s) {
+
+        void operator()(IfStatement *s) {
             if (sa.getTypeFromExp(context, *s->relation) != "Boolean")
-                error("Expected Boolean found " + sa.getTypeFromExp(context, *s->relation));
-            for (Statement* stm: s->statements->stmts)
+                error("Expected Boolean found " + sa.getTypeFromExp(context, *s->relation), s->span);
+            for (Statement *stm: s->statements->stmts)
                 std::visit(*this, *stm);
             if (s->elseStatements != nullptr)
-                for (Statement* stm: s->elseStatements->stmts)
+                for (Statement *stm: s->elseStatements->stmts)
                     std::visit(*this, *stm);
         }
-        void operator()(WhileStatement* s) {
-            if (sa.getTypeFromExp(context, *s->relation) != "Boolean")
-                error("Expected Boolean found " + sa.getTypeFromExp(context, *s->relation));
 
-            for (Statement* stm: s->statement->stmts)
+        void operator()(WhileStatement *s) {
+            if (sa.getTypeFromExp(context, *s->relation) != "Boolean")
+                error("Expected Boolean found " + sa.getTypeFromExp(context, *s->relation), s->span);
+            inCycle = true;
+            for (Statement *stm: s->statement->stmts)
                 std::visit(*this, *stm);
+            inCycle = false;
         }
-        void operator()(ReturnStatement*s) {
+
+        void operator()(ReturnStatement *s) {
             sa.getTypeFromExp(context, *s->expression);
         }
-        void operator()(Assignment*s) {
+
+        void operator()(Assignment *s) {
             if (!sa.symbols.contains(s->identifier) && !context.members.contains(s->identifier))
-                error("No such variable " + s->identifier);
+                error("No such variable " + s->identifier, s->span);
         }
-        void operator()(Expression*e) {
+
+        void operator()(Expression *e) {
             sa.getTypeFromExp(context, *e);
+        }
+
+        void operator()(Keyword *b) {
+            if (!inCycle)
+                error("Break is on in cycle", b->span);
         }
     };
 
-    for (const auto& [className, c]: classes) {
+    for (const auto &[className, c]: classes) {
         Visitor visitor(*this, c);
-        for (const auto& [metName, met]: c.methods) {
+        for (const auto &[metName, met]: c.methods) {
             if (!classes.contains(met->returnType->toString()))
-                error("Class '" + met->returnType->toString() + "' is undefined");
+                error("Class '" + met->returnType->toString() + "' is undefined", met->returnType->span);
             symbols.clear();
-            std::string id = metName + "&" + met->arguments->extractTypesAsString();
             for (const auto &arg: met->arguments->args) {
                 if (!classes.contains(arg->type->toString()))
-                    error("Class '" + arg->type->toString() + "' is undefined");
+                    error("Class '" + arg->type->toString() + "' is undefined", arg->span);
                 if (symbols.contains(arg->name))
-                    error("Args names are the same '" + arg->name + "' for method '" + id + "'");
+                    error("Args names are the same '" + arg->name + "' for method '" + metName + "'", arg->span);
                 symbols.emplace(arg->name, arg->type->toString());
             }
-            for (Statement* stm: met->body->stmts) {
+            for (Statement *stm: met->body->stmts) {
                 std::visit(visitor, *stm);
             }
         }
-        for (const auto& [cnsName, cns]: c.constructors) {
+        for (const auto &[cnsName, cns]: c.constructors) {
             symbols.clear();
             if (cns->arguments != nullptr)
                 for (const auto &arg: cns->arguments->args) {
                     if (!classes.contains(arg->type->toString()))
-                        error("Class '" + arg->type->toString() + "' is undefined");
+                        error("Class '" + arg->type->toString() + "' is undefined", arg->span);
                     if (symbols.contains(arg->name))
-                        error("Args names are the same '" + arg->name + "' for constructor of class '" + cnsName + "'");
+                        error("Args names are the same '" + arg->name + "' for constructor " + cnsName + " of class '" +
+                              className + "'", arg->span);
                     symbols.emplace(arg->name, arg->type->toString());
                 }
-            for (Statement* stm: cns->body->stmts) {
+            for (Statement *stm: cns->body->stmts) {
                 std::visit(visitor, *stm);
             }
         }
-        for (const auto& [varName, var]: c.members) {
+        for (const auto &[varName, var]: c.members) {
             if (symbols.contains(varName))
-                error("Redeclaration of var " + varName);
+                error("Redeclaration of var " + varName, var->span);
             if (classes.contains(varName))
-                error("Name of var cannot be name of class: " + varName);
+                error("Name of var cannot be name of class: " + varName, var->span);
             getTypeFromExp(c, *var->expression);
         }
     }
@@ -206,25 +230,30 @@ void SemAnalyzer::Class::initMembers(const std::unordered_set<std::string> &clas
         std::unordered_map<std::string, Constructor *> &css;
         std::unordered_map<std::string, Variable *> &vars;
         std::string className;
+
         Visitor(std::unordered_map<std::string, Method *> &mds, std::unordered_map<std::string, Constructor *> &css,
-                         std::unordered_map<std::string, Variable *> &vars,
-                         const std::unordered_set<std::string> &classesNames, std::string className)
+                std::unordered_map<std::string, Variable *> &vars,
+                const std::unordered_set<std::string> &classesNames, std::string className)
                 : mds(mds), css(css), vars(vars), classesNames(classesNames), className(std::move(className)) {}
+
         void operator()(Variable *vd) {
             if (vars.contains(vd->name) || mds.contains(vd->name) || classesNames.contains(vd->name))
-                error("Redeclaration of var " + vd->name);
+                error("Redeclaration of var " + vd->name, vd->span);
 //            if (className == vd->expression) // TODO: No declaration of type inside of itself (int cannot contain int)
             vars[vd->name] = vd;
         }
+
         void operator()(Method *vd) {
             std::string id = vd->name + "&" + vd->arguments->extractTypesAsString();
             if (vars.contains(id) || mds.contains(id) || classesNames.contains(id))
-                error("Redeclaration of method " + id);
+                error("Redeclaration of method " + id, vd->span);
             mds[id] = vd;
         }
+
         void operator()(Constructor *vd) {
             if (css.contains(vd->arguments->extractTypesAsString()))
-                error("Constructor of '" + className + "' with args of types '" + vd->arguments->extractTypesAsString()+ "' already exists");
+                error("Constructor of '" + className + "' with args of types '" +
+                      vd->arguments->extractTypesAsString() + "' already exists", vd->span);
             css.emplace(vd->arguments->extractTypesAsString(), vd);
         }
     } visitor(this->methods, this->constructors, this->members, classesNames, name);
@@ -240,7 +269,7 @@ SemAnalyzer::Class::Class(const ClassDeclaration &classDeclaration, const Class 
 
 std::string SemAnalyzer::getTypeFromExps(const SemAnalyzer::Class &context, const Expressions &e) const {
     std::string res;
-    for (const auto& exp: e.exps) {
+    for (const auto &exp: e.exps) {
         res += getTypeFromExp(context, *exp) + "&";
     }
     return res;

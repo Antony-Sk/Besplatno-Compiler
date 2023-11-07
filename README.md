@@ -27,28 +27,33 @@ Todo on lexical part:
 ## Syntax part
 Todo
 * Check on bugs
-* Destructors for ast nodes!!!
+* Destructors for ast nodes
 * Add position of structs in code in ast nodes
+* void functions
 
 ## Semantic part
 Ready
 * Cycling inheritance is forbidden
-* Redeclaration of class is forbidden
+* Redeclaration of classes, method, vars is forbidden
 * Overriding members
 * Overloading functions and constructors
 * Type checking
 * Naming checking
+* Keywords are in right context
 
 Todo:
-* Recursive var having (e.g. "int" cannot contain "int")
-* Generics !!!!!!! GENERICS !!!!!
+* Forbid cycling var having (e.g. "int" cannot contain "real" that contains "int")
+* Generics
 * Std
-* Opts if I will have time 
+* Opts 
+  * Unused vars
+  * Unreachable code
+  * Constexpr
+* void functions
 
 ## General TODOs:
 * More exhaustive example
 * Refactor code
-  * replace std::holds_alternative by std::visit where it is possible
 * Make doc with language specification 
   * Local vars overwrite global ones (as in C)
   * Real type: .0, 0.0 - correct ones; 0. - incorrect

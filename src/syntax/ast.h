@@ -17,27 +17,34 @@ struct Types;
 
 struct Type {
     std::string base;
-    Types* generics;
+    Types *generics;
+    const Span span;
 
-    Type(const std::string &base, Types *generics) : base(base), generics(generics) {}
+    Type(std::string base, Types *generics, const Span &span) : base(std::move(base)), generics(generics), span(span) {}
+
     bool operator==(const Type &other) const;
+
     std::string toString();
 };
 
 struct Types {
-    std::vector<Type*> types;
+    std::vector<Type *> types;
+
     Types() : types() {};
-    explicit Types(Type* type) : types({type}) {};
-    Types* add(Type* type) {
+
+    explicit Types(Type *type) : types({type}) {};
+
+    Types *add(Type *type) {
         types.push_back(type);
         return this;
     }
+
     bool operator==(const Types &other) const;
 
     std::string toString();
 };
 
-typedef std::variant<IntegerLit*, BooleanLit*, RealLit*, std::string, MethodCall*, CompoundExpression*, Keyword*> Expression;
+typedef std::variant<IntegerLit *, BooleanLit *, RealLit *, std::pair<std::string, Span>, MethodCall *, CompoundExpression *, Keyword *> Expression;
 
 struct Expressions {
     std::vector<Expression *> exps;
@@ -55,10 +62,11 @@ struct Expressions {
 };
 
 struct MethodCall {
-    Type* name;
+    Type *name;
     Expressions *arguments;
+    const Span span;
 
-    MethodCall(Type* type, Expressions *arguments) : name(type), arguments(arguments) {}
+    MethodCall(Type *type, Expressions *arguments, const Span &span) : name(type), arguments(arguments), span(span) {}
 };
 
 
@@ -78,7 +86,7 @@ struct ReturnStatement;
 struct Assignment;
 struct Variable;
 
-typedef std::variant<Variable*, IfStatement*, WhileStatement*, ReturnStatement*, Assignment*, Expression*> Statement;
+typedef std::variant<Variable *, IfStatement *, WhileStatement *, ReturnStatement *, Assignment *, Expression *, Keyword *> Statement;
 
 struct ReturnStatement {
     Expression *expression;
@@ -95,41 +103,48 @@ struct Statements {
     }
 
     Statements() = default;
+
     explicit Statements(Statement *stmt) { stmts = {stmt}; }
 };
 
 struct WhileStatement {
     Relation *relation;
     Statements *statement;
+    const Span span;
 
-    WhileStatement(Relation *relation, Statements *statement) : relation(relation), statement(statement) {}
+    WhileStatement(Relation *relation, Statements *statement, const Span &span)
+            : relation(relation), statement(statement), span(span) {}
 };
 
 struct IfStatement {
     Relation *relation;
     Statements *statements;
     Statements *elseStatements;
-
-    IfStatement(Relation *relation, Statements *statement, Statements *elseStatement) : relation(relation),
-                                                                                        statements(statement),
-                                                                                        elseStatements(elseStatement) {}
+    const Span span;
+    IfStatement(Relation *relation, Statements *statement, Statements *elseStatement, const Span &span)
+            : relation(relation),
+              statements(statement),
+              elseStatements(elseStatement), span(span) {}
 };
 
 struct Assignment {
     std::string identifier;
     Expression *expression;
+    const Span span;
 
-    Assignment(std::string& identifier, Expression *expression) : identifier(identifier), expression(expression) {}
+    Assignment(std::string identifier, Expression *expression, const Span span)
+            : identifier(std::move(identifier)), expression(expression), span(span) {}
 };
 
 struct Argument {
     std::string name;
 
-    Type* type;
+    Type *type;
+    const Span span;
 
-    Argument(std::string& name, Type* type) : name(name), type(type) {}
+    Argument(std::string &name, Type *type, const Span &span) : name(name), type(type), span(span) {}
 
-    bool operator==(const Argument&arg) const {
+    bool operator==(const Argument &arg) const {
         return (name == arg.name) && (*type == *arg.type);
     }
 };
@@ -146,7 +161,7 @@ struct Arguments {
 
     explicit Arguments(Argument *arg) { args = {arg}; }
 
-    bool operator==(const Arguments& other) const {
+    bool operator==(const Arguments &other) const {
         if (args.size() != other.args.size())
             return false;
         for (int i = 0; i < args.size(); i++) {
@@ -168,27 +183,39 @@ struct Arguments {
 struct Variable {
     std::string name;
     Expression *expression;
+    Span span;
 
-    Variable(std::string& name, Expression *expression) : expression(expression), name(name) {}
+    Variable(std::string &name, Expression *expression, Span span) : expression(expression), name(name),
+                                                                     span(span) {}
 };
 
 struct Method {
     std::string name;
     Arguments *arguments;
-    Type* returnType;
+    Type *returnType;
     Statements *body;
+    const Span span;
 
-    Method(std::string& name, Arguments *arguments, Type* returnType, Statements *body) : name(name), arguments(arguments), returnType(returnType), body(body) {}
+    Method(std::string name, Arguments *arguments, Type *returnType, Statements *body, const Span &span) : name(
+            std::move(name)),
+                                                                                                           arguments(
+                                                                                                                   arguments),
+                                                                                                           returnType(
+                                                                                                                   returnType),
+                                                                                                           body(body),
+                                                                                                           span(span) {}
 };
 
 struct Constructor {
     Arguments *arguments;
     Statements *body;
+    const Span span;
 
-    Constructor(Arguments *arguments, Statements *body) : arguments(arguments), body(body) {}
+    Constructor(Arguments *arguments, Statements *body, const Span &span)
+            : arguments(arguments), body(body), span(span) {}
 };
 
-typedef std::variant<Variable*, Method*, Constructor*> MemberDeclaration;
+typedef std::variant<Variable *, Method *, Constructor *> MemberDeclaration;
 
 struct MemberDeclarations {
     std::vector<MemberDeclaration *> decls;
@@ -203,15 +230,17 @@ struct MemberDeclarations {
 
 struct ClassBody {
     MemberDeclarations *members;
+
     explicit ClassBody(MemberDeclarations *m) : members(m) {};
 };
 
 struct ClassDeclaration {
-    Type* type;
+    Type *type;
     ClassBody *body;
-    Type* extends;
+    Type *extends;
 
-    ClassDeclaration(Type *type, ClassBody *body, Type* extends) : type(type), body(body), extends(extends) { };
+    ClassDeclaration(Type *type, ClassBody *body, Type *extends)
+            : type(type), body(body), extends(extends) {};
 };
 
 struct ClassDeclarations {
@@ -221,7 +250,9 @@ struct ClassDeclarations {
         decls.push_back(cd);
         return this;
     }
+
     explicit ClassDeclarations(ClassDeclaration *cd) { decls = {cd}; }
+
     ClassDeclarations() = default;
 };
 

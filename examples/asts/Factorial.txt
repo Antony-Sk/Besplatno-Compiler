@@ -24,7 +24,6 @@ Program
 ---------Expression with value : a
 ---------Method 'Multiply' call with args:
 ----------Expressions
------------Expression with value : a
 -----------Expression with value :
 ------------Compound expression
 -------------Expression with value : this
@@ -41,11 +40,6 @@ Program
 ----Args
 ----Statements
 -----Statement
-------Var decl : a
--------Expression with value :
---------Method 'Factorial' call with args:
----------Expressions
-----------Expression with value : 5
 ------Var decl : a
 -------Expression with value :
 --------Method 'Factorial' call with args:

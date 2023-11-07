@@ -129,19 +129,20 @@ extern int yydebug;
     WHILE = 269,                   /* WHILE  */
     LOOP = 270,                    /* LOOP  */
     EXTENDS = 271,                 /* EXTENDS  */
-    LBRACE = 272,                  /* LBRACE  */
-    RBRACE = 273,                  /* RBRACE  */
-    LPAREN = 274,                  /* LPAREN  */
-    RPAREN = 275,                  /* RPAREN  */
-    LBRACKET = 276,                /* LBRACKET  */
-    RBRACKET = 277,                /* RBRACKET  */
-    COMMA = 278,                   /* COMMA  */
-    DOT = 279,                     /* DOT  */
-    COLON = 280,                   /* COLON  */
-    ASSIGNMENTOPERATOR = 281,      /* ASSIGNMENTOPERATOR  */
-    BOOLLITERAL = 282,             /* BOOLLITERAL  */
-    INTEGERLITERAL = 283,          /* INTEGERLITERAL  */
-    REALLITERAL = 284              /* REALLITERAL  */
+    BREAK = 272,                   /* BREAK  */
+    LBRACE = 273,                  /* LBRACE  */
+    RBRACE = 274,                  /* RBRACE  */
+    LPAREN = 275,                  /* LPAREN  */
+    RPAREN = 276,                  /* RPAREN  */
+    LBRACKET = 277,                /* LBRACKET  */
+    RBRACKET = 278,                /* RBRACKET  */
+    COMMA = 279,                   /* COMMA  */
+    DOT = 280,                     /* DOT  */
+    COLON = 281,                   /* COLON  */
+    ASSIGNMENTOPERATOR = 282,      /* ASSIGNMENTOPERATOR  */
+    BOOLLITERAL = 283,             /* BOOLLITERAL  */
+    INTEGERLITERAL = 284,          /* INTEGERLITERAL  */
+    REALLITERAL = 285              /* REALLITERAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -183,7 +184,7 @@ union value
   Type* type;
   Types* types;
 
-#line 187 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
+#line 188 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
 
 };
 #line 8 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
@@ -221,44 +222,45 @@ enum yysymbol_kind_t
   YYSYMBOL_WHILE = 14,                     /* WHILE  */
   YYSYMBOL_LOOP = 15,                      /* LOOP  */
   YYSYMBOL_EXTENDS = 16,                   /* EXTENDS  */
-  YYSYMBOL_LBRACE = 17,                    /* LBRACE  */
-  YYSYMBOL_RBRACE = 18,                    /* RBRACE  */
-  YYSYMBOL_LPAREN = 19,                    /* LPAREN  */
-  YYSYMBOL_RPAREN = 20,                    /* RPAREN  */
-  YYSYMBOL_LBRACKET = 21,                  /* LBRACKET  */
-  YYSYMBOL_RBRACKET = 22,                  /* RBRACKET  */
-  YYSYMBOL_COMMA = 23,                     /* COMMA  */
-  YYSYMBOL_DOT = 24,                       /* DOT  */
-  YYSYMBOL_COLON = 25,                     /* COLON  */
-  YYSYMBOL_ASSIGNMENTOPERATOR = 26,        /* ASSIGNMENTOPERATOR  */
-  YYSYMBOL_BOOLLITERAL = 27,               /* BOOLLITERAL  */
-  YYSYMBOL_INTEGERLITERAL = 28,            /* INTEGERLITERAL  */
-  YYSYMBOL_REALLITERAL = 29,               /* REALLITERAL  */
-  YYSYMBOL_YYACCEPT = 30,                  /* $accept  */
-  YYSYMBOL_Program = 31,                   /* Program  */
-  YYSYMBOL_ClassDeclarations = 32,         /* ClassDeclarations  */
-  YYSYMBOL_ClassDeclaration = 33,          /* ClassDeclaration  */
-  YYSYMBOL_ClassBody = 34,                 /* ClassBody  */
-  YYSYMBOL_MemberDeclarations = 35,        /* MemberDeclarations  */
-  YYSYMBOL_MemberDeclaration = 36,         /* MemberDeclaration  */
-  YYSYMBOL_Variable = 37,                  /* Variable  */
-  YYSYMBOL_Constructor = 38,               /* Constructor  */
-  YYSYMBOL_Method = 39,                    /* Method  */
-  YYSYMBOL_ArgumentDeclarations = 40,      /* ArgumentDeclarations  */
-  YYSYMBOL_ArgumentDeclaration = 41,       /* ArgumentDeclaration  */
-  YYSYMBOL_Statements = 42,                /* Statements  */
-  YYSYMBOL_Statement = 43,                 /* Statement  */
-  YYSYMBOL_Assignment = 44,                /* Assignment  */
-  YYSYMBOL_IfStatement = 45,               /* IfStatement  */
-  YYSYMBOL_WhileStatement = 46,            /* WhileStatement  */
-  YYSYMBOL_ReturnStatement = 47,           /* ReturnStatement  */
-  YYSYMBOL_Expression = 48,                /* Expression  */
-  YYSYMBOL_CompoundExpression = 49,        /* CompoundExpression  */
-  YYSYMBOL_Relation = 50,                  /* Relation  */
-  YYSYMBOL_MethodCall = 51,                /* MethodCall  */
-  YYSYMBOL_Expressions = 52,               /* Expressions  */
-  YYSYMBOL_Type = 53,                      /* Type  */
-  YYSYMBOL_Types = 54                      /* Types  */
+  YYSYMBOL_BREAK = 17,                     /* BREAK  */
+  YYSYMBOL_LBRACE = 18,                    /* LBRACE  */
+  YYSYMBOL_RBRACE = 19,                    /* RBRACE  */
+  YYSYMBOL_LPAREN = 20,                    /* LPAREN  */
+  YYSYMBOL_RPAREN = 21,                    /* RPAREN  */
+  YYSYMBOL_LBRACKET = 22,                  /* LBRACKET  */
+  YYSYMBOL_RBRACKET = 23,                  /* RBRACKET  */
+  YYSYMBOL_COMMA = 24,                     /* COMMA  */
+  YYSYMBOL_DOT = 25,                       /* DOT  */
+  YYSYMBOL_COLON = 26,                     /* COLON  */
+  YYSYMBOL_ASSIGNMENTOPERATOR = 27,        /* ASSIGNMENTOPERATOR  */
+  YYSYMBOL_BOOLLITERAL = 28,               /* BOOLLITERAL  */
+  YYSYMBOL_INTEGERLITERAL = 29,            /* INTEGERLITERAL  */
+  YYSYMBOL_REALLITERAL = 30,               /* REALLITERAL  */
+  YYSYMBOL_YYACCEPT = 31,                  /* $accept  */
+  YYSYMBOL_Program = 32,                   /* Program  */
+  YYSYMBOL_ClassDeclarations = 33,         /* ClassDeclarations  */
+  YYSYMBOL_ClassDeclaration = 34,          /* ClassDeclaration  */
+  YYSYMBOL_ClassBody = 35,                 /* ClassBody  */
+  YYSYMBOL_MemberDeclarations = 36,        /* MemberDeclarations  */
+  YYSYMBOL_MemberDeclaration = 37,         /* MemberDeclaration  */
+  YYSYMBOL_Variable = 38,                  /* Variable  */
+  YYSYMBOL_Constructor = 39,               /* Constructor  */
+  YYSYMBOL_Method = 40,                    /* Method  */
+  YYSYMBOL_ArgumentDeclarations = 41,      /* ArgumentDeclarations  */
+  YYSYMBOL_ArgumentDeclaration = 42,       /* ArgumentDeclaration  */
+  YYSYMBOL_Statements = 43,                /* Statements  */
+  YYSYMBOL_Statement = 44,                 /* Statement  */
+  YYSYMBOL_Assignment = 45,                /* Assignment  */
+  YYSYMBOL_IfStatement = 46,               /* IfStatement  */
+  YYSYMBOL_WhileStatement = 47,            /* WhileStatement  */
+  YYSYMBOL_ReturnStatement = 48,           /* ReturnStatement  */
+  YYSYMBOL_Expression = 49,                /* Expression  */
+  YYSYMBOL_CompoundExpression = 50,        /* CompoundExpression  */
+  YYSYMBOL_Relation = 51,                  /* Relation  */
+  YYSYMBOL_MethodCall = 52,                /* MethodCall  */
+  YYSYMBOL_Expressions = 53,               /* Expressions  */
+  YYSYMBOL_Type = 54,                      /* Type  */
+  YYSYMBOL_Types = 55                      /* Types  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -586,19 +588,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   166
+#define YYLAST   212
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  30
+#define YYNTOKENS  31
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  25
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  52
+#define YYNRULES  53
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  99
+#define YYNSTATES  100
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   284
+#define YYMAXUTOK   285
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -640,19 +642,19 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29
+      25,    26,    27,    28,    29,    30
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    98,    98,   102,   103,   107,   108,   112,   113,   117,
-     118,   122,   123,   124,   128,   132,   135,   139,   140,   141,
-     145,   149,   150,   151,   155,   156,   157,   158,   159,   160,
-     164,   168,   169,   173,   177,   178,   182,   183,   184,   185,
-     186,   187,   188,   192,   196,   200,   204,   205,   206,   210,
-     211,   215,   216
+       0,    99,    99,   103,   104,   108,   109,   113,   114,   118,
+     119,   123,   124,   125,   129,   133,   136,   140,   141,   142,
+     146,   150,   151,   152,   156,   157,   158,   159,   160,   161,
+     162,   166,   170,   171,   175,   179,   180,   184,   185,   186,
+     187,   188,   189,   190,   194,   198,   202,   206,   207,   208,
+     212,   213,   217,   218
 };
 #endif
 
@@ -670,13 +672,13 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "IDENTIFIER", "CLASS",
   "IS", "END", "METHOD", "VAR", "THIS", "IF", "THEN", "ELSE", "RETURN",
-  "WHILE", "LOOP", "EXTENDS", "LBRACE", "RBRACE", "LPAREN", "RPAREN",
-  "LBRACKET", "RBRACKET", "COMMA", "DOT", "COLON", "ASSIGNMENTOPERATOR",
-  "BOOLLITERAL", "INTEGERLITERAL", "REALLITERAL", "$accept", "Program",
-  "ClassDeclarations", "ClassDeclaration", "ClassBody",
-  "MemberDeclarations", "MemberDeclaration", "Variable", "Constructor",
-  "Method", "ArgumentDeclarations", "ArgumentDeclaration", "Statements",
-  "Statement", "Assignment", "IfStatement", "WhileStatement",
+  "WHILE", "LOOP", "EXTENDS", "BREAK", "LBRACE", "RBRACE", "LPAREN",
+  "RPAREN", "LBRACKET", "RBRACKET", "COMMA", "DOT", "COLON",
+  "ASSIGNMENTOPERATOR", "BOOLLITERAL", "INTEGERLITERAL", "REALLITERAL",
+  "$accept", "Program", "ClassDeclarations", "ClassDeclaration",
+  "ClassBody", "MemberDeclarations", "MemberDeclaration", "Variable",
+  "Constructor", "Method", "ArgumentDeclarations", "ArgumentDeclaration",
+  "Statements", "Statement", "Assignment", "IfStatement", "WhileStatement",
   "ReturnStatement", "Expression", "CompoundExpression", "Relation",
   "MethodCall", "Expressions", "Type", "Types", YY_NULLPTR
 };
@@ -688,12 +690,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-70)
+#define YYPACT_NINF (-71)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-50)
+#define YYTABLE_NINF (-51)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -702,16 +704,16 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      26,    39,    47,   -70,    26,    22,    -3,   -70,   -70,    39,
-      52,    39,   -70,    17,    51,    59,    31,    57,    52,   -70,
-     -70,   -70,   -70,    60,   -70,    39,    45,    41,    64,   -70,
-     -70,    52,   -70,    64,     8,    44,   -17,   -70,    62,    -5,
-       2,   -70,   -70,   -70,   -70,    50,   -70,   -70,    56,    39,
-      72,    64,   -70,    61,    39,     8,   -70,   137,   -70,    39,
-     -70,    50,    18,   -12,     8,     8,     8,   -70,    70,   -70,
-     -70,   -70,   -70,   -70,    50,    76,   -70,     8,     8,    50,
-      80,    50,    75,   -70,   -70,   137,    50,    50,   137,   137,
-      79,    43,   106,   -70,   -70,   137,   -70,   115,   -70
+      11,    15,    30,   -71,    11,    13,    -3,   -71,   -71,    15,
+      58,    15,   -71,    28,    38,    41,    27,    43,    58,   -71,
+     -71,   -71,   -71,    49,   -71,    15,    42,    37,    65,   -71,
+     -71,    58,   -71,    65,     8,    44,   -18,   -71,    63,    18,
+       1,   -71,   -71,   -71,   -71,    46,   -71,   -71,    52,    15,
+      68,    65,   -71,    48,    15,     8,   -71,   182,   -71,    15,
+     -71,    46,    19,   -13,     8,     8,     8,   -71,   -71,    75,
+     -71,   -71,   -71,   -71,   -71,    46,    74,   -71,     8,     8,
+      46,    69,    46,    67,   -71,   -71,   182,    46,    46,   182,
+     182,   103,    47,   131,   -71,   -71,   182,   -71,   159,   -71
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -719,32 +721,32 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     2,     3,    49,     0,     1,     4,     0,
-       7,     0,    51,     0,     0,     0,     0,     0,     8,     9,
-      11,    13,    12,     0,    50,     0,     0,     0,    17,     5,
-      10,     7,    52,    17,     0,     0,     0,    18,     0,     0,
-      40,    39,    38,    36,    37,    14,    42,    41,     0,     0,
-       0,     0,     6,     0,     0,    46,    20,    21,    19,     0,
-      43,    47,     0,    40,     0,    34,     0,    24,     0,    22,
-      25,    26,    27,    28,    29,     0,    45,     0,     0,    44,
-       0,    35,     0,    15,    23,    21,    48,    30,    21,    21,
-       0,     0,     0,    16,    31,    21,    33,     0,    32
+       0,     0,     0,     2,     3,    50,     0,     1,     4,     0,
+       7,     0,    52,     0,     0,     0,     0,     0,     8,     9,
+      11,    13,    12,     0,    51,     0,     0,     0,    17,     5,
+      10,     7,    53,    17,     0,     0,     0,    18,     0,     0,
+      41,    40,    39,    37,    38,    14,    43,    42,     0,     0,
+       0,     0,     6,     0,     0,    47,    20,    21,    19,     0,
+      44,    48,     0,    41,     0,    35,     0,    30,    24,     0,
+      22,    25,    26,    27,    28,    29,     0,    46,     0,     0,
+      45,     0,    36,     0,    15,    23,    21,    49,    31,    21,
+      21,     0,     0,     0,    16,    32,    21,    34,     0,    33
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -70,   -70,    90,   -70,    65,   -70,    77,    -6,   -70,   -70,
-      67,    53,   -69,   -63,   -70,   -70,   -70,   -70,   -33,   -70,
-      35,    48,   -70,    -1,   -70
+     -71,   -71,    82,   -71,    56,   -71,    72,    -6,   -71,   -71,
+      60,    40,   -70,   -64,   -71,   -71,   -71,   -71,   -33,   -71,
+      29,    45,   -71,    -1,   -71
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     3,     4,    17,    18,    19,    67,    21,    22,
-      36,    37,    68,    69,    70,    71,    72,    73,    74,    46,
-      80,    47,    62,    48,    13
+       0,     2,     3,     4,    17,    18,    19,    68,    21,    22,
+      36,    37,    69,    70,    71,    72,    73,    74,    75,    46,
+      81,    47,    62,    48,    13
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -752,71 +754,81 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       6,    45,    10,    50,    20,    84,    51,   -49,    12,     9,
-      23,    40,    20,    11,    78,    53,    90,    41,    51,    91,
-      92,   -49,    61,     9,    32,    20,    97,    84,    84,    84,
-       1,    79,    81,    79,    84,    42,    43,    44,    76,    24,
-      25,    77,     5,     9,    86,    87,    63,     7,    56,    94,
-      28,    15,    41,    64,    26,    95,    65,    66,    75,    14,
-      15,    16,    27,    29,    33,    31,    34,    35,    52,    49,
-      42,    43,    44,    63,    54,    55,    83,    57,    15,    41,
-      64,    85,    63,    65,    66,    93,    59,    15,    41,    64,
-      89,    88,    65,    66,     8,    30,    38,    42,    43,    44,
-      39,    82,    60,     0,    58,     0,    42,    43,    44,    63,
-       0,     0,    96,     0,    15,    41,    64,     0,    63,    65,
-      66,    98,     0,    15,    41,    64,     0,     0,    65,    66,
-       0,     0,     0,    42,    43,    44,     0,     0,     0,     0,
-      63,     0,    42,    43,    44,    15,    41,    64,     0,     0,
-      65,    66,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    42,    43,    44
+       6,    45,    10,    50,    20,    85,    51,   -50,    12,     9,
+      23,    40,    20,    11,    79,     1,    91,    41,     5,    92,
+      93,   -50,    61,     9,    32,    20,    98,    85,    85,    85,
+       7,    80,    82,    80,    85,     9,    42,    43,    44,    53,
+      77,    26,    51,    78,    27,    87,    88,    28,    56,    29,
+      63,    24,    25,    95,    31,    15,    41,    64,    76,    96,
+      65,    66,    33,    34,    67,    14,    15,    16,    35,    52,
+      49,    54,    55,    57,    59,    42,    43,    44,    63,    86,
+      89,    84,    90,    15,    41,    64,     8,    38,    65,    66,
+      30,    58,    67,    39,     0,    83,     0,     0,     0,    60,
+       0,     0,     0,    42,    43,    44,    63,     0,     0,    94,
+       0,    15,    41,    64,     0,     0,    65,    66,     0,     0,
+      67,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    42,    43,    44,    63,     0,     0,    97,     0,    15,
+      41,    64,     0,     0,    65,    66,     0,     0,    67,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    42,
+      43,    44,    63,     0,     0,    99,     0,    15,    41,    64,
+       0,     0,    65,    66,     0,     0,    67,     0,     0,     0,
+       0,     0,     0,     0,     0,    63,     0,    42,    43,    44,
+      15,    41,    64,     0,     0,    65,    66,     0,     0,    67,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      42,    43,    44
 };
 
 static const yytype_int8 yycheck[] =
 {
-       1,    34,     5,    20,    10,    68,    23,    19,     9,    21,
-      11,     3,    18,    16,    26,    20,    85,     9,    23,    88,
-      89,    19,    55,    21,    25,    31,    95,    90,    91,    92,
-       4,    64,    65,    66,    97,    27,    28,    29,    20,    22,
-      23,    23,     3,    21,    77,    78,     3,     0,    49,     6,
-      19,     8,     9,    10,     3,    12,    13,    14,    59,     7,
-       8,     9,     3,     6,    19,     5,    25,     3,     6,    25,
-      27,    28,    29,     3,    24,    19,     6,     5,     8,     9,
-      10,     5,     3,    13,    14,     6,    25,     8,     9,    10,
-      15,    11,    13,    14,     4,    18,    31,    27,    28,    29,
-      33,    66,    54,    -1,    51,    -1,    27,    28,    29,     3,
-      -1,    -1,     6,    -1,     8,     9,    10,    -1,     3,    13,
-      14,     6,    -1,     8,     9,    10,    -1,    -1,    13,    14,
-      -1,    -1,    -1,    27,    28,    29,    -1,    -1,    -1,    -1,
-       3,    -1,    27,    28,    29,     8,     9,    10,    -1,    -1,
-      13,    14,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    27,    28,    29
+       1,    34,     5,    21,    10,    69,    24,    20,     9,    22,
+      11,     3,    18,    16,    27,     4,    86,     9,     3,    89,
+      90,    20,    55,    22,    25,    31,    96,    91,    92,    93,
+       0,    64,    65,    66,    98,    22,    28,    29,    30,    21,
+      21,     3,    24,    24,     3,    78,    79,    20,    49,     6,
+       3,    23,    24,     6,     5,     8,     9,    10,    59,    12,
+      13,    14,    20,    26,    17,     7,     8,     9,     3,     6,
+      26,    25,    20,     5,    26,    28,    29,    30,     3,     5,
+      11,     6,    15,     8,     9,    10,     4,    31,    13,    14,
+      18,    51,    17,    33,    -1,    66,    -1,    -1,    -1,    54,
+      -1,    -1,    -1,    28,    29,    30,     3,    -1,    -1,     6,
+      -1,     8,     9,    10,    -1,    -1,    13,    14,    -1,    -1,
+      17,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      -1,    28,    29,    30,     3,    -1,    -1,     6,    -1,     8,
+       9,    10,    -1,    -1,    13,    14,    -1,    -1,    17,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    28,
+      29,    30,     3,    -1,    -1,     6,    -1,     8,     9,    10,
+      -1,    -1,    13,    14,    -1,    -1,    17,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,     3,    -1,    28,    29,    30,
+       8,     9,    10,    -1,    -1,    13,    14,    -1,    -1,    17,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      28,    29,    30
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     4,    31,    32,    33,     3,    53,     0,    32,    21,
-       5,    16,    53,    54,     7,     8,     9,    34,    35,    36,
-      37,    38,    39,    53,    22,    23,     3,     3,    19,     6,
-      36,     5,    53,    19,    25,     3,    40,    41,    34,    40,
-       3,     9,    27,    28,    29,    48,    49,    51,    53,    25,
-      20,    23,     6,    20,    24,    19,    53,     5,    41,    25,
-      51,    48,    52,     3,    10,    13,    14,    37,    42,    43,
-      44,    45,    46,    47,    48,    53,    20,    23,    26,    48,
-      50,    48,    50,     6,    43,     5,    48,    48,    11,    15,
-      42,    42,    42,     6,     6,    12,     6,    42,     6
+       0,     4,    32,    33,    34,     3,    54,     0,    33,    22,
+       5,    16,    54,    55,     7,     8,     9,    35,    36,    37,
+      38,    39,    40,    54,    23,    24,     3,     3,    20,     6,
+      37,     5,    54,    20,    26,     3,    41,    42,    35,    41,
+       3,     9,    28,    29,    30,    49,    50,    52,    54,    26,
+      21,    24,     6,    21,    25,    20,    54,     5,    42,    26,
+      52,    49,    53,     3,    10,    13,    14,    17,    38,    43,
+      44,    45,    46,    47,    48,    49,    54,    21,    24,    27,
+      49,    51,    49,    51,     6,    44,     5,    49,    49,    11,
+      15,    43,    43,    43,     6,     6,    12,     6,    43,     6
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    30,    31,    32,    32,    33,    33,    34,    34,    35,
-      35,    36,    36,    36,    37,    38,    39,    40,    40,    40,
-      41,    42,    42,    42,    43,    43,    43,    43,    43,    43,
-      44,    45,    45,    46,    47,    47,    48,    48,    48,    48,
-      48,    48,    48,    49,    50,    51,    52,    52,    52,    53,
-      53,    54,    54
+       0,    31,    32,    33,    33,    34,    34,    35,    35,    36,
+      36,    37,    37,    37,    38,    39,    40,    41,    41,    41,
+      42,    43,    43,    43,    44,    44,    44,    44,    44,    44,
+      44,    45,    46,    46,    47,    48,    48,    49,    49,    49,
+      49,    49,    49,    49,    50,    51,    52,    53,    53,    53,
+      54,    54,    55,    55
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -825,9 +837,9 @@ static const yytype_int8 yyr2[] =
        0,     2,     1,     1,     2,     5,     7,     0,     1,     1,
        2,     1,     1,     1,     4,     7,    10,     0,     1,     3,
        3,     0,     1,     2,     1,     1,     1,     1,     1,     1,
-       3,     5,     7,     5,     1,     2,     1,     1,     1,     1,
-       1,     1,     1,     3,     1,     4,     0,     1,     3,     1,
-       4,     1,     3
+       1,     3,     5,     7,     5,     1,     2,     1,     1,     1,
+       1,     1,     1,     1,     3,     1,     4,     0,     1,     3,
+       1,     4,     1,     3
 };
 
 
@@ -1291,313 +1303,319 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* Program: ClassDeclarations  */
-#line 98 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+#line 99 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
                         {  (yyval.prog) = program = new Program((yyvsp[0].cds)); }
-#line 1297 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
-    break;
-
-  case 3: /* ClassDeclarations: ClassDeclaration  */
-#line 102 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                         { (yyval.cds) = new ClassDeclarations((yyvsp[0].cd));  }
-#line 1303 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
-    break;
-
-  case 4: /* ClassDeclarations: ClassDeclaration ClassDeclarations  */
-#line 103 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                         { (yyval.cds) = (yyvsp[0].cds)->add((yyvsp[-1].cd)); }
 #line 1309 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 5: /* ClassDeclaration: CLASS Type IS ClassBody END  */
-#line 107 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                               { (yyval.cd) = new ClassDeclaration((yyvsp[-3].type), (yyvsp[-1].cb), nullptr); }
+  case 3: /* ClassDeclarations: ClassDeclaration  */
+#line 103 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                         { (yyval.cds) = new ClassDeclarations((yyvsp[0].cd));  }
 #line 1315 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 6: /* ClassDeclaration: CLASS Type EXTENDS Type IS ClassBody END  */
-#line 108 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                               { (yyval.cd) = new ClassDeclaration((yyvsp[-5].type), (yyvsp[-1].cb), (yyvsp[-3].type)); }
+  case 4: /* ClassDeclarations: ClassDeclaration ClassDeclarations  */
+#line 104 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                         { (yyval.cds) = (yyvsp[0].cds)->add((yyvsp[-1].cd)); }
 #line 1321 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 7: /* ClassBody: %empty  */
-#line 112 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { (yyval.cb) = new ClassBody(nullptr); }
+  case 5: /* ClassDeclaration: CLASS Type IS ClassBody END  */
+#line 108 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                               { (yyval.cd) = new ClassDeclaration((yyvsp[-3].type), (yyvsp[-1].cb), nullptr); }
 #line 1327 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 8: /* ClassBody: MemberDeclarations  */
-#line 113 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { (yyval.cb) = new ClassBody((yyvsp[0].mds)); }
+  case 6: /* ClassDeclaration: CLASS Type EXTENDS Type IS ClassBody END  */
+#line 109 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                               { (yyval.cd) = new ClassDeclaration((yyvsp[-5].type), (yyvsp[-1].cb), (yyvsp[-3].type)); }
 #line 1333 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 9: /* MemberDeclarations: MemberDeclaration  */
-#line 117 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                           { (yyval.mds) = new MemberDeclarations((yyvsp[0].md)); }
+  case 7: /* ClassBody: %empty  */
+#line 113 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { (yyval.cb) = new ClassBody(nullptr); }
 #line 1339 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 10: /* MemberDeclarations: MemberDeclarations MemberDeclaration  */
-#line 118 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                           { (yyval.mds) = (yyvsp[-1].mds)->add((yyvsp[0].md)); }
+  case 8: /* ClassBody: MemberDeclarations  */
+#line 114 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { (yyval.cb) = new ClassBody((yyvsp[0].mds)); }
 #line 1345 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 11: /* MemberDeclaration: Variable  */
-#line 122 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                  { auto t = new MemberDeclaration(); *t = (yyvsp[0].vard); (yyval.md) = t; }
+  case 9: /* MemberDeclarations: MemberDeclaration  */
+#line 118 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                           { (yyval.mds) = new MemberDeclarations((yyvsp[0].md)); }
 #line 1351 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 12: /* MemberDeclaration: Method  */
-#line 123 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                  { auto t = new MemberDeclaration(); *t = (yyvsp[0].metd); (yyval.md) = t; }
+  case 10: /* MemberDeclarations: MemberDeclarations MemberDeclaration  */
+#line 119 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                           { (yyval.mds) = (yyvsp[-1].mds)->add((yyvsp[0].md)); }
 #line 1357 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 13: /* MemberDeclaration: Constructor  */
-#line 124 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                  { auto t = new MemberDeclaration(); *t = (yyvsp[0].cstrd); (yyval.md) = t; }
+  case 11: /* MemberDeclaration: Variable  */
+#line 123 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                  { auto t = new MemberDeclaration(); *t = (yyvsp[0].vard); (yyval.md) = t; }
 #line 1363 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 14: /* Variable: VAR IDENTIFIER COLON Expression  */
-#line 128 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                      { (yyval.vard) = new Variable((yyvsp[-2].identifier)->identifier, (yyvsp[0].exp)); }
+  case 12: /* MemberDeclaration: Method  */
+#line 124 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                  { auto t = new MemberDeclaration(); *t = (yyvsp[0].metd); (yyval.md) = t; }
 #line 1369 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 15: /* Constructor: THIS LPAREN ArgumentDeclarations RPAREN IS Statements END  */
-#line 132 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                                                { (yyval.cstrd) = new Constructor((yyvsp[-4].argsd), (yyvsp[-1].sttms)); }
+  case 13: /* MemberDeclaration: Constructor  */
+#line 125 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                  { auto t = new MemberDeclaration(); *t = (yyvsp[0].cstrd); (yyval.md) = t; }
 #line 1375 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 16: /* Method: METHOD IDENTIFIER LPAREN ArgumentDeclarations RPAREN COLON Type IS Statements END  */
-#line 135 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                                                                        { (yyval.metd) = new Method((yyvsp[-8].identifier)->identifier, (yyvsp[-6].argsd), (yyvsp[-3].type), (yyvsp[-1].sttms)); }
+  case 14: /* Variable: VAR IDENTIFIER COLON Expression  */
+#line 129 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                      { (yyval.vard) = new Variable((yyvsp[-2].identifier)->identifier, (yyvsp[0].exp), (yyvsp[-2].identifier)->span); }
 #line 1381 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 17: /* ArgumentDeclarations: %empty  */
-#line 139 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                                     { (yyval.argsd) = new Arguments(); }
+  case 15: /* Constructor: THIS LPAREN ArgumentDeclarations RPAREN IS Statements END  */
+#line 133 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                                                { (yyval.cstrd) = new Constructor((yyvsp[-4].argsd), (yyvsp[-1].sttms), (yyvsp[-6].keyword)->span); }
 #line 1387 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 18: /* ArgumentDeclarations: ArgumentDeclaration  */
-#line 140 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                                     { (yyval.argsd) = new Arguments((yyvsp[0].argd)); }
+  case 16: /* Method: METHOD IDENTIFIER LPAREN ArgumentDeclarations RPAREN COLON Type IS Statements END  */
+#line 136 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                                                                        { (yyval.metd) = new Method((yyvsp[-8].identifier)->identifier, (yyvsp[-6].argsd), (yyvsp[-3].type), (yyvsp[-1].sttms), (yyvsp[-8].identifier)->span); }
 #line 1393 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 19: /* ArgumentDeclarations: ArgumentDeclarations COMMA ArgumentDeclaration  */
-#line 141 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                                     { (yyval.argsd) = (yyvsp[-2].argsd)->add((yyvsp[0].argd)); }
+  case 17: /* ArgumentDeclarations: %empty  */
+#line 140 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                                     { (yyval.argsd) = new Arguments(); }
 #line 1399 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 20: /* ArgumentDeclaration: IDENTIFIER COLON Type  */
-#line 145 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                            { (yyval.argd) = new Argument((yyvsp[-2].identifier)->identifier, (yyvsp[0].type)); }
+  case 18: /* ArgumentDeclarations: ArgumentDeclaration  */
+#line 141 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                                     { (yyval.argsd) = new Arguments((yyvsp[0].argd)); }
 #line 1405 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 21: /* Statements: %empty  */
-#line 149 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                           { (yyval.sttms) = new Statements(); }
+  case 19: /* ArgumentDeclarations: ArgumentDeclarations COMMA ArgumentDeclaration  */
+#line 142 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                                     { (yyval.argsd) = (yyvsp[-2].argsd)->add((yyvsp[0].argd)); }
 #line 1411 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 22: /* Statements: Statement  */
-#line 150 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                           { (yyval.sttms) = new Statements((yyvsp[0].sttm)); }
+  case 20: /* ArgumentDeclaration: IDENTIFIER COLON Type  */
+#line 146 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                            { (yyval.argd) = new Argument((yyvsp[-2].identifier)->identifier, (yyvsp[0].type), (yyvsp[-2].identifier)->span); }
 #line 1417 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 23: /* Statements: Statements Statement  */
-#line 151 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                           { (yyval.sttms) = (yyvsp[-1].sttms)->add((yyvsp[0].sttm)); }
+  case 21: /* Statements: %empty  */
+#line 150 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                           { (yyval.sttms) = new Statements(); }
 #line 1423 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 24: /* Statement: Variable  */
-#line 155 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                          { auto t = new Statement(); *t = (yyvsp[0].vard); (yyval.sttm) = t; }
+  case 22: /* Statements: Statement  */
+#line 151 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                           { (yyval.sttms) = new Statements((yyvsp[0].sttm)); }
 #line 1429 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 25: /* Statement: Assignment  */
-#line 156 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                          { auto t = new Statement(); *t = (yyvsp[0].assgn); (yyval.sttm) = t; }
+  case 23: /* Statements: Statements Statement  */
+#line 152 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                           { (yyval.sttms) = (yyvsp[-1].sttms)->add((yyvsp[0].sttm)); }
 #line 1435 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 26: /* Statement: IfStatement  */
-#line 157 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                          { auto t = new Statement(); *t = (yyvsp[0].ifst); (yyval.sttm) = t; }
+  case 24: /* Statement: Variable  */
+#line 156 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                          { auto t = new Statement(); *t = (yyvsp[0].vard); (yyval.sttm) = t; }
 #line 1441 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 27: /* Statement: WhileStatement  */
-#line 158 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                          { auto t = new Statement(); *t = (yyvsp[0].wlst); (yyval.sttm) = t; }
+  case 25: /* Statement: Assignment  */
+#line 157 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                          { auto t = new Statement(); *t = (yyvsp[0].assgn); (yyval.sttm) = t; }
 #line 1447 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 28: /* Statement: ReturnStatement  */
-#line 159 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                          { auto t = new Statement(); *t = (yyvsp[0].rtst); (yyval.sttm) = t; }
+  case 26: /* Statement: IfStatement  */
+#line 158 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                          { auto t = new Statement(); *t = (yyvsp[0].ifst); (yyval.sttm) = t; }
 #line 1453 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 29: /* Statement: Expression  */
-#line 160 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                          { auto t = new Statement(); *t = (yyvsp[0].exp); (yyval.sttm) = t; }
+  case 27: /* Statement: WhileStatement  */
+#line 159 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                          { auto t = new Statement(); *t = (yyvsp[0].wlst); (yyval.sttm) = t; }
 #line 1459 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 30: /* Assignment: IDENTIFIER ASSIGNMENTOPERATOR Expression  */
-#line 164 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                               { (yyval.assgn) = new Assignment((yyvsp[-2].identifier)->identifier, (yyvsp[0].exp)); }
+  case 28: /* Statement: ReturnStatement  */
+#line 160 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                          { auto t = new Statement(); *t = (yyvsp[0].rtst); (yyval.sttm) = t; }
 #line 1465 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 31: /* IfStatement: IF Relation THEN Statements END  */
-#line 168 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                                      { (yyval.ifst) = new IfStatement((yyvsp[-3].exp), (yyvsp[-1].sttms), nullptr); }
+  case 29: /* Statement: Expression  */
+#line 161 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                          { auto t = new Statement(); *t = (yyvsp[0].exp); (yyval.sttm) = t; }
 #line 1471 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 32: /* IfStatement: IF Relation THEN Statements ELSE Statements END  */
-#line 169 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                                      { (yyval.ifst) = new IfStatement((yyvsp[-5].exp), (yyvsp[-3].sttms), (yyvsp[-1].sttms)); }
+  case 30: /* Statement: BREAK  */
+#line 162 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                          { auto t = new Statement(); *t = (yyvsp[0].keyword); (yyval.sttm) = t; }
 #line 1477 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 33: /* WhileStatement: WHILE Relation LOOP Statements END  */
-#line 173 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                         { (yyval.wlst) = new WhileStatement((yyvsp[-3].exp), (yyvsp[-1].sttms)); }
+  case 31: /* Assignment: IDENTIFIER ASSIGNMENTOPERATOR Expression  */
+#line 166 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                               { (yyval.assgn) = new Assignment((yyvsp[-2].identifier)->identifier, (yyvsp[0].exp), (yyvsp[-2].identifier)->span); }
 #line 1483 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 34: /* ReturnStatement: RETURN  */
-#line 177 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                        { (yyval.rtst) = new ReturnStatement(nullptr); }
+  case 32: /* IfStatement: IF Relation THEN Statements END  */
+#line 170 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                                      { (yyval.ifst) = new IfStatement((yyvsp[-3].exp), (yyvsp[-1].sttms), nullptr, (yyvsp[-4].keyword)->span); }
 #line 1489 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 35: /* ReturnStatement: RETURN Expression  */
-#line 178 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                        { (yyval.rtst) = new ReturnStatement((yyvsp[0].exp)); }
+  case 33: /* IfStatement: IF Relation THEN Statements ELSE Statements END  */
+#line 171 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                                      { (yyval.ifst) = new IfStatement((yyvsp[-5].exp), (yyvsp[-3].sttms), (yyvsp[-1].sttms), (yyvsp[-6].keyword)->span); }
 #line 1495 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 36: /* Expression: INTEGERLITERAL  */
-#line 182 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { auto t = new Expression(); *t = (yyvsp[0].integerLit); (yyval.exp) = t; }
+  case 34: /* WhileStatement: WHILE Relation LOOP Statements END  */
+#line 175 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                         { (yyval.wlst) = new WhileStatement((yyvsp[-3].exp), (yyvsp[-1].sttms), (yyvsp[-4].keyword)->span); }
 #line 1501 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 37: /* Expression: REALLITERAL  */
-#line 183 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { auto t = new Expression(); *t = (yyvsp[0].realLit); (yyval.exp) = t; }
+  case 35: /* ReturnStatement: RETURN  */
+#line 179 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                        { (yyval.rtst) = new ReturnStatement(nullptr); }
 #line 1507 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 38: /* Expression: BOOLLITERAL  */
-#line 184 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { auto t = new Expression(); *t = (yyvsp[0].booleanLit); (yyval.exp) = t; }
+  case 36: /* ReturnStatement: RETURN Expression  */
+#line 180 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                        { (yyval.rtst) = new ReturnStatement((yyvsp[0].exp)); }
 #line 1513 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 39: /* Expression: THIS  */
-#line 185 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { auto t = new Expression(); *t = (yyvsp[0].keyword); (yyval.exp) = t; }
+  case 37: /* Expression: INTEGERLITERAL  */
+#line 184 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { auto t = new Expression(); *t = (yyvsp[0].integerLit); (yyval.exp) = t; }
 #line 1519 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 40: /* Expression: IDENTIFIER  */
-#line 186 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { auto t = new Expression(); *t = (yyvsp[0].identifier)->identifier; (yyval.exp) = t; }
+  case 38: /* Expression: REALLITERAL  */
+#line 185 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { auto t = new Expression(); *t = (yyvsp[0].realLit); (yyval.exp) = t; }
 #line 1525 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 41: /* Expression: MethodCall  */
-#line 187 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { auto t = new Expression(); *t = (yyvsp[0].metcall); (yyval.exp) = t; }
+  case 39: /* Expression: BOOLLITERAL  */
+#line 186 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { auto t = new Expression(); *t = (yyvsp[0].booleanLit); (yyval.exp) = t; }
 #line 1531 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 42: /* Expression: CompoundExpression  */
-#line 188 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                         { auto t = new Expression(); *t = (yyvsp[0].cexp); (yyval.exp) = t; }
+  case 40: /* Expression: THIS  */
+#line 187 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { auto t = new Expression(); *t = (yyvsp[0].keyword); (yyval.exp) = t; }
 #line 1537 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 43: /* CompoundExpression: Expression DOT MethodCall  */
-#line 192 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                { (yyval.cexp) = new CompoundExpression((yyvsp[-2].exp), (yyvsp[0].metcall)); }
+  case 41: /* Expression: IDENTIFIER  */
+#line 188 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { auto t = new Expression(); *t = std::make_pair<std::string, Span>(std::move((yyvsp[0].identifier)->identifier), std::move((yyvsp[0].identifier)->span)); (yyval.exp) = t; }
 #line 1543 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 44: /* Relation: Expression  */
-#line 196 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                 { (yyval.exp) = (yyvsp[0].exp); }
+  case 42: /* Expression: MethodCall  */
+#line 189 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { auto t = new Expression(); *t = (yyvsp[0].metcall); (yyval.exp) = t; }
 #line 1549 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 45: /* MethodCall: Type LPAREN Expressions RPAREN  */
-#line 200 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                     { (yyval.metcall) = new MethodCall((yyvsp[-3].type), (yyvsp[-1].exps)); }
+  case 43: /* Expression: CompoundExpression  */
+#line 190 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                         { auto t = new Expression(); *t = (yyvsp[0].cexp); (yyval.exp) = t; }
 #line 1555 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 46: /* Expressions: %empty  */
-#line 204 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                   { (yyval.exps) = new Expressions(); }
+  case 44: /* CompoundExpression: Expression DOT MethodCall  */
+#line 194 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                { (yyval.cexp) = new CompoundExpression((yyvsp[-2].exp), (yyvsp[0].metcall)); }
 #line 1561 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 47: /* Expressions: Expression  */
-#line 205 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                   { (yyval.exps) = new Expressions((yyvsp[0].exp)); }
+  case 45: /* Relation: Expression  */
+#line 198 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                 { (yyval.exp) = (yyvsp[0].exp); }
 #line 1567 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 48: /* Expressions: Expressions COMMA Expression  */
-#line 206 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                   { (yyval.exps) = (yyvsp[-2].exps)->add((yyvsp[0].exp)); }
+  case 46: /* MethodCall: Type LPAREN Expressions RPAREN  */
+#line 202 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                     { (yyval.metcall) = new MethodCall((yyvsp[-3].type), (yyvsp[-1].exps), (yyvsp[-3].type)->span); }
 #line 1573 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 49: /* Type: IDENTIFIER  */
-#line 210 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                         { (yyval.type) = new Type((yyvsp[0].identifier)->identifier, nullptr); }
+  case 47: /* Expressions: %empty  */
+#line 206 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                   { (yyval.exps) = new Expressions(); }
 #line 1579 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 50: /* Type: IDENTIFIER LBRACKET Types RBRACKET  */
-#line 211 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                                         { (yyval.type) = new Type((yyvsp[-3].identifier)->identifier, (yyvsp[-1].types)); }
+  case 48: /* Expressions: Expression  */
+#line 207 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                   { (yyval.exps) = new Expressions((yyvsp[0].exp)); }
 #line 1585 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 51: /* Types: Type  */
-#line 215 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                       { (yyval.types) = new Types((yyvsp[0].type)); }
+  case 49: /* Expressions: Expressions COMMA Expression  */
+#line 208 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                   { (yyval.exps) = (yyvsp[-2].exps)->add((yyvsp[0].exp)); }
 #line 1591 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
-  case 52: /* Types: Types COMMA Type  */
-#line 216 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                       { (yyval.types) = (yyvsp[-2].types)->add((yyvsp[0].type)); }
+  case 50: /* Type: IDENTIFIER  */
+#line 212 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                         { (yyval.type) = new Type((yyvsp[0].identifier)->identifier, nullptr, (yyvsp[0].identifier)->span); }
 #line 1597 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
+  case 51: /* Type: IDENTIFIER LBRACKET Types RBRACKET  */
+#line 213 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                                         { (yyval.type) = new Type((yyvsp[-3].identifier)->identifier, (yyvsp[-1].types), (yyvsp[-3].identifier)->span); }
+#line 1603 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
+    break;
 
-#line 1601 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
+  case 52: /* Types: Type  */
+#line 217 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                       { (yyval.types) = new Types((yyvsp[0].type)); }
+#line 1609 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
+    break;
+
+  case 53: /* Types: Types COMMA Type  */
+#line 218 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+                       { (yyval.types) = (yyvsp[-2].types)->add((yyvsp[0].type)); }
+#line 1615 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
+    break;
+
+
+#line 1619 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
 
       default: break;
     }
@@ -1790,7 +1808,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 218 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
+#line 220 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
 
 
 #include "scanner.h"

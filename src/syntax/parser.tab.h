@@ -68,19 +68,20 @@ extern int yydebug;
     WHILE = 269,                   /* WHILE  */
     LOOP = 270,                    /* LOOP  */
     EXTENDS = 271,                 /* EXTENDS  */
-    LBRACE = 272,                  /* LBRACE  */
-    RBRACE = 273,                  /* RBRACE  */
-    LPAREN = 274,                  /* LPAREN  */
-    RPAREN = 275,                  /* RPAREN  */
-    LBRACKET = 276,                /* LBRACKET  */
-    RBRACKET = 277,                /* RBRACKET  */
-    COMMA = 278,                   /* COMMA  */
-    DOT = 279,                     /* DOT  */
-    COLON = 280,                   /* COLON  */
-    ASSIGNMENTOPERATOR = 281,      /* ASSIGNMENTOPERATOR  */
-    BOOLLITERAL = 282,             /* BOOLLITERAL  */
-    INTEGERLITERAL = 283,          /* INTEGERLITERAL  */
-    REALLITERAL = 284              /* REALLITERAL  */
+    BREAK = 272,                   /* BREAK  */
+    LBRACE = 273,                  /* LBRACE  */
+    RBRACE = 274,                  /* RBRACE  */
+    LPAREN = 275,                  /* LPAREN  */
+    RPAREN = 276,                  /* RPAREN  */
+    LBRACKET = 277,                /* LBRACKET  */
+    RBRACKET = 278,                /* RBRACKET  */
+    COMMA = 279,                   /* COMMA  */
+    DOT = 280,                     /* DOT  */
+    COLON = 281,                   /* COLON  */
+    ASSIGNMENTOPERATOR = 282,      /* ASSIGNMENTOPERATOR  */
+    BOOLLITERAL = 283,             /* BOOLLITERAL  */
+    INTEGERLITERAL = 284,          /* INTEGERLITERAL  */
+    REALLITERAL = 285              /* REALLITERAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -123,7 +124,7 @@ union value
   Type* type;
   Types* types;
 
-#line 126 "parser.tab.h"
+#line 127 "parser.tab.h"
 
 };
 #line 8 "parser.y"

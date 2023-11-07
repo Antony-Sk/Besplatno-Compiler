@@ -76,6 +76,7 @@
 %token <keyword>       WHILE
 %token <keyword>       LOOP
 %token <keyword>       EXTENDS
+%token <keyword>       BREAK
 %token <delimiter>     LBRACE   // {
 %token <delimiter>     RBRACE   // }
 %token <delimiter>     LPAREN   // (
@@ -125,14 +126,14 @@ MemberDeclaration
     ;
 
 Variable
-    : VAR IDENTIFIER COLON Expression { $$ = new Variable($2->identifier, $4); }
+    : VAR IDENTIFIER COLON Expression { $$ = new Variable($2->identifier, $4, $2->span); }
     ;
 
 Constructor
-    : THIS LPAREN ArgumentDeclarations RPAREN IS Statements END { $$ = new Constructor($3, $6); }
+    : THIS LPAREN ArgumentDeclarations RPAREN IS Statements END { $$ = new Constructor($3, $6, $1->span); }
 
 Method
-    : METHOD IDENTIFIER LPAREN ArgumentDeclarations RPAREN COLON Type IS Statements END { $$ = new Method($2->identifier, $4, $7, $9); }
+    : METHOD IDENTIFIER LPAREN ArgumentDeclarations RPAREN COLON Type IS Statements END { $$ = new Method($2->identifier, $4, $7, $9, $2->span); }
     ;
 
 ArgumentDeclarations
@@ -142,7 +143,7 @@ ArgumentDeclarations
     ;
 
 ArgumentDeclaration
-    : IDENTIFIER COLON Type { $$ = new Argument($1->identifier, $3); }
+    : IDENTIFIER COLON Type { $$ = new Argument($1->identifier, $3, $1->span); }
     ;
 
 Statements
@@ -158,19 +159,20 @@ Statement
     | WhileStatement      { auto t = new Statement(); *t = $1; $$ = t; }
     | ReturnStatement     { auto t = new Statement(); *t = $1; $$ = t; }
     | Expression          { auto t = new Statement(); *t = $1; $$ = t; }
+    | BREAK               { auto t = new Statement(); *t = $1; $$ = t; }
     ;
 
 Assignment
-    : IDENTIFIER ASSIGNMENTOPERATOR Expression { $$ = new Assignment($1->identifier, $3); }
+    : IDENTIFIER ASSIGNMENTOPERATOR Expression { $$ = new Assignment($1->identifier, $3, $1->span); }
     ;
 
 IfStatement
-    : IF Relation THEN Statements END                 { $$ = new IfStatement($2, $4, nullptr); }
-    | IF Relation THEN Statements ELSE Statements END { $$ = new IfStatement($2, $4, $6); }
+    : IF Relation THEN Statements END                 { $$ = new IfStatement($2, $4, nullptr, $1->span); }
+    | IF Relation THEN Statements ELSE Statements END { $$ = new IfStatement($2, $4, $6, $1->span); }
     ;
 
 WhileStatement
-    : WHILE Relation LOOP Statements END { $$ = new WhileStatement($2, $4); }
+    : WHILE Relation LOOP Statements END { $$ = new WhileStatement($2, $4, $1->span); }
     ;
 
 ReturnStatement
@@ -183,7 +185,7 @@ Expression
     | REALLITERAL        { auto t = new Expression(); *t = $1; $$ = t; }
     | BOOLLITERAL        { auto t = new Expression(); *t = $1; $$ = t; }
     | THIS               { auto t = new Expression(); *t = $1; $$ = t; }
-    | IDENTIFIER         { auto t = new Expression(); *t = $1->identifier; $$ = t; } // variable
+    | IDENTIFIER         { auto t = new Expression(); *t = std::make_pair<std::string, Span>(std::move($1->identifier), std::move($1->span)); $$ = t; } // variable
     | MethodCall         { auto t = new Expression(); *t = $1; $$ = t; }
     | CompoundExpression { auto t = new Expression(); *t = $1; $$ = t; }
     ;
@@ -197,7 +199,7 @@ Relation
     ;
 
 MethodCall
-    : Type LPAREN Expressions RPAREN { $$ = new MethodCall($1, $3); }
+    : Type LPAREN Expressions RPAREN { $$ = new MethodCall($1, $3, $1->span); }
     ;
 
 Expressions
@@ -207,8 +209,8 @@ Expressions
     ;
 
 Type
-    : IDENTIFIER                         { $$ = new Type($1->identifier, nullptr); }
-    | IDENTIFIER LBRACKET Types RBRACKET { $$ = new Type($1->identifier, $3); }
+    : IDENTIFIER                         { $$ = new Type($1->identifier, nullptr, $1->span); }
+    | IDENTIFIER LBRACKET Types RBRACKET { $$ = new Type($1->identifier, $3, $1->span); }
     ;
 
 Types
