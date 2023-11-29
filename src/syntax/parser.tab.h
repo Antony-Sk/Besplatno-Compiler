@@ -88,11 +88,11 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-#line 8 "parser.y"
+#line 10 "parser.y"
 #include "ast.h"
 union value
 {
-#line 8 "parser.y"
+#line 10 "parser.y"
 
   Program* prog;
   ClassDeclarations* cds;
@@ -127,7 +127,7 @@ union value
 #line 127 "parser.tab.h"
 
 };
-#line 8 "parser.y"
+#line 10 "parser.y"
 typedef union value YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

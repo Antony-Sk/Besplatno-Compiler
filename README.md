@@ -1,34 +1,28 @@
 # Besplatno-Compiler
 
-Pass your program through a pipe:
+First 2 lines in main:
+```auto program = parser.parse("test");
+auto std = parser.parse("Std.opl");
 ```
-$ cat examples/programs/Inheritance.opl | ./Besplatno_Compiler 
-Program
--Class : Main
---Member decl
----Constructor
-----Args
-----Statements
------Statement
-------Var decl : x
--------Expression with value : 
---------Method 'B' call with args:
----------Expressions
-----------Expression with value : 1
-----------Expression with value : 2
+`test` - name of input OPL file
+
+`Std.opl` - library headers in O language
+```
+$ ./Besplatno_Compiler 
+$ clang a.ll std.ll
+$ ./a.out
 ...
 ```
-
+## Code generation part
+* Inheritance
+* ...
 ## Lexical part
-Todo on lexical part:
 * Known bugs:
   * The last line of file contains comment: syntax error
 
 ## Syntax part
 Todo
-* Check on bugs
 * Destructors for ast nodes
-* Add position of structs in code in ast nodes
 * void functions
 
 ## Semantic part
@@ -40,16 +34,22 @@ Ready
 * Type checking
 * Naming checking
 * Keywords are in right context
+* Generics of multiple types
 
 Todo:
 * Forbid cycling var having (e.g. "int" cannot contain "real" that contains "int")
 * Generics
 * Std
+  * Print
+  * Prime types
+  * Arrays
 * Opts 
   * Unused vars
   * Unreachable code
+    * while/if false/true
   * Constexpr
 * void functions
+* strings
 
 ## General TODOs:
 * More exhaustive example

@@ -332,9 +332,9 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[117] =
     {   0,
-        0,    0,   12,   10,    9,    8,    7,   10,    7,   10,
+        0,    0,   12,   10,    8,    9,    7,   10,    7,   10,
         2,    7,    5,    5,    5,    5,    5,    5,    5,    5,
-        5,    5,    5,    5,    9,    0,    2,    3,    0,    2,
+        5,    5,    5,    5,    8,    0,    2,    3,    0,    2,
         7,    5,    5,    5,    5,    5,    5,    5,    4,    5,
         5,    5,    5,    5,    5,    5,    0,    6,    0,    2,
         5,    5,    5,    5,    4,    5,    5,    5,    5,    5,
@@ -837,15 +837,15 @@ YY_RULE_SETUP
 }
 	YY_BREAK
 case 8:
-/* rule 8 can match eol */
 YY_RULE_SETUP
 #line 140 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
-{ _lineNum++; _posInLine = 0; }
+{ _posInLine += strlen(yytext); }
 	YY_BREAK
 case 9:
+/* rule 9 can match eol */
 YY_RULE_SETUP
 #line 142 "/home/anton/Documents/Besplatno-Compiler/src/lex/scanner.l"
-{ _posInLine += strlen(yytext); }
+{ _lineNum++; _posInLine = 0; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP

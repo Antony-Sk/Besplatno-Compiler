@@ -1,16 +1,18 @@
 #include "parser.h"
-#include "ast.h"
 #include "src/semantic/semAnalyzer.h"
-#include "astPrinter.h"
-
-extern Program *program;
+#include "codegen.h"
 
 int main() {
-    int t = yyparse();
-    while (t) {
-        t = yyparse();
-    }
-    SemAnalyzer sa(*program);
+    Parser parser;
+    auto program = parser.parse("test");
+    auto std = parser.parse("Std.opl");
+    Program wholeProgram(new ClassDeclarations());
+    wholeProgram.classDecls->decls = std->classDecls->decls;
+    for (auto cd: program->classDecls->decls)
+        wholeProgram.classDecls->add(cd);
+    SemAnalyzer sa(wholeProgram);
     sa.checkTypes();
-    print(program);
+    CodeGenerator cg;
+    cg.addObjects(std);
+    cg.generateCode(program);
 }

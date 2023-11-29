@@ -8,39 +8,42 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <optional>
 #include "ast.h"
 
 class SemAnalyzer {
+public:
+    explicit SemAnalyzer(const Program &p);
+    void checkTypes();
+
+private:
     struct Class {
         const std::string name;
         const Class *base;
-        std::unordered_map<std::string, Constructor *> constructors;
         std::unordered_map<std::string, Method *> methods; // "name&type1&type2&...typeN&" -> Method*
         std::unordered_map<std::string, Variable *> members;
-        const ClassDeclaration &classDeclaration;
+        ClassDeclaration &classDeclaration;
 
-        Class(const ClassDeclaration &classDeclaration, const Class *base, std::string name);
+        Class(ClassDeclaration &classDeclaration, const Class *base, std::string name);
 
         void initMembers(const std::unordered_set<std::string> &classesNames);
     };
 
-public:
-    explicit SemAnalyzer(const Program &p);
-
-    static void error(const std::string &msg, const Span & = Span());
-
-    void checkTypes();
+    std::unordered_map<std::string, Class> classes;
+    std::unordered_map<std::string, Class> stdClasses;
+    std::unordered_map<std::string, std::string> templateClassesNames;
+    std::unordered_map<std::string, std::string> symbols;
 
 private:
-    std::unordered_map<std::string, Class> classes;
-//    std::unordered_map<std::string, Class> templateClasses;
-    std::unordered_map<std::string, std::string> symbols;
+    static void error(const std::string &msg, const Span & = Span());
 
     std::string getTypeFromExp(const Class &context, const Expression &e) const;
 
     std::string getTypeFromExps(const Class &context, const Expressions &e) const;
 
     bool matchExpsAndArgs(Expressions *e, Arguments *a, const Class &context) const;
+
+    void instantiateGenerics(Program &p);
 };
 
 

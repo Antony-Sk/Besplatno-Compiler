@@ -65,7 +65,7 @@ struct MethodCall {
     Type *name;
     Expressions *arguments;
     const Span span;
-
+    std::string fullname;
     MethodCall(Type *type, Expressions *arguments, const Span &span) : name(type), arguments(arguments), span(span) {}
 };
 
@@ -142,7 +142,7 @@ struct Argument {
     Type *type;
     const Span span;
 
-    Argument(std::string &name, Type *type, const Span &span) : name(name), type(type), span(span) {}
+    Argument(std::string name, Type *type, const Span &span) : name(std::move(name)), type(type), span(span) {}
 
     bool operator==(const Argument &arg) const {
         return (name == arg.name) && (*type == *arg.type);
@@ -165,16 +165,16 @@ struct Arguments {
         if (args.size() != other.args.size())
             return false;
         for (int i = 0; i < args.size(); i++) {
-            if (*args[i] != *other.args[i])
+            if (*args[i] == *other.args[i])
                 return false;
         }
         return true;
     }
 
-    [[nodiscard]] std::string extractTypesAsString() const {
+     [[nodiscard]] std::string extractTypesAsString() const {
         std::string res;
         for (const auto arg: args) {
-            res += arg->type->toString() + '&';
+            res += arg->type->toString() + '_';
         }
         return res;
     }
@@ -195,15 +195,10 @@ struct Method {
     Type *returnType;
     Statements *body;
     const Span span;
+    std::string fullName;
 
     Method(std::string name, Arguments *arguments, Type *returnType, Statements *body, const Span &span) : name(
-            std::move(name)),
-                                                                                                           arguments(
-                                                                                                                   arguments),
-                                                                                                           returnType(
-                                                                                                                   returnType),
-                                                                                                           body(body),
-                                                                                                           span(span) {}
+            std::move(name)), arguments(arguments), returnType(returnType), body(body), span(span) {}
 };
 
 struct Constructor {

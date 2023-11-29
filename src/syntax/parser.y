@@ -2,7 +2,11 @@
     #include "parser.h"
     #include "ast.h"
     #include <iostream>
-    Program *program;
+
+    int yylex();
+    void yyerror(char *);
+    Scanner Parser::scanner;
+    Program* Parser::program = nullptr;
 %}
 
 %union value {
@@ -96,7 +100,7 @@
 %%
 
 Program
-    : ClassDeclarations {  $$ = program = new Program($1); }
+    : ClassDeclarations {  $$ = Parser::program = new Program($1); }
     ;
 
 ClassDeclarations
@@ -219,13 +223,10 @@ Types
     ;
 %%
 
-#include "scanner.h"
 #include "parser.tab.h"
 
-Scanner scanner;
-
 int yylex(void) {
-    Token* t = scanner.get_next_token();
+    Token* t = Parser::scanner.get_next_token();
     if (t == nullptr)
         return 0;
     return t->code;
