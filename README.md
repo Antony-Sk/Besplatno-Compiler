@@ -21,7 +21,7 @@ $ ./a.out
   * The last line of file contains comment: syntax error
 
 ## Syntax part
-Todo
+Todo:
 * Destructors for ast nodes
 * void functions
 
