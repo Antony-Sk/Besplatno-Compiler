@@ -1,18 +1,12 @@
-class Integer is
-    method Multiply(a: Integer) : Integer is end
-    method Minus(a: Integer) : Integer is end
-    method LessEqual(a: Integer) : Boolean is end
-end
-class Boolean is end
-
 class Main is
     method Factorial(a: Integer) : Integer is
         if a.LessEqual(1) then
             return 1
         end
-        return a.Multiply(this.Factorial(a.Minus(1)))
+        return a.Mult(Factorial(a.Minus(1)))
     end
     this() is
         var a : Factorial(5)
+        a.Print()
     end
 end

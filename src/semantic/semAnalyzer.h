@@ -39,7 +39,8 @@ private:
 
     std::string getTypeFromExp(const Class &context, const Expression &e) const;
 
-    std::string getTypeFromExps(const Class &context, const Expressions &e) const;
+    std::string getTypeFromExps(const Class &context, Expressions &e) const;
+    std::vector<std::string> getVariantsTypeFromExps(const Class &context, const Expressions &e) const;
 
     bool matchExpsAndArgs(Expressions *e, Arguments *a, const Class &context) const;
 

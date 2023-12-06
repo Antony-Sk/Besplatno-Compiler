@@ -1506,13 +1506,13 @@ yyreduce:
 
   case 35: /* ReturnStatement: RETURN  */
 #line 183 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                        { (yyval.rtst) = new ReturnStatement(nullptr); }
+                        { (yyval.rtst) = new ReturnStatement(nullptr, (yyvsp[0].keyword)->span); }
 #line 1511 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 
   case 36: /* ReturnStatement: RETURN Expression  */
 #line 184 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.y"
-                        { (yyval.rtst) = new ReturnStatement((yyvsp[0].exp)); }
+                        { (yyval.rtst) = new ReturnStatement((yyvsp[0].exp), (yyvsp[-1].keyword)->span); }
 #line 1517 "/home/anton/Documents/Besplatno-Compiler/src/syntax/parser.cpp"
     break;
 

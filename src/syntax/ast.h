@@ -48,6 +48,7 @@ typedef std::variant<IntegerLit *, BooleanLit *, RealLit *, std::pair<std::strin
 
 struct Expressions {
     std::vector<Expression *> exps;
+    std::vector<std::string> expsTypes;
 
     Expressions *add(Expression *exp) {
         exps.push_back(exp);
@@ -66,6 +67,8 @@ struct MethodCall {
     Expressions *arguments;
     const Span span;
     std::string fullname;
+    Type *returnType = nullptr;
+
     MethodCall(Type *type, Expressions *arguments, const Span &span) : name(type), arguments(arguments), span(span) {}
 };
 
@@ -75,6 +78,7 @@ typedef Expression Relation;
 struct CompoundExpression {
     Expression *expression;
     MethodCall *methodCall;
+    std::string expType;
 
     CompoundExpression(Expression *expression, MethodCall *methodCall) : expression(expression),
                                                                          methodCall(methodCall) {}
@@ -90,8 +94,9 @@ typedef std::variant<Variable *, IfStatement *, WhileStatement *, ReturnStatemen
 
 struct ReturnStatement {
     Expression *expression;
+    const Span span;
 
-    explicit ReturnStatement(Expression *expression) : expression(expression) {}
+    explicit ReturnStatement(Expression *expression, const Span &span) : expression(expression), span(span) {}
 };
 
 struct Statements {
@@ -121,6 +126,7 @@ struct IfStatement {
     Statements *statements;
     Statements *elseStatements;
     const Span span;
+
     IfStatement(Relation *relation, Statements *statement, Statements *elseStatement, const Span &span)
             : relation(relation),
               statements(statement),
@@ -171,7 +177,7 @@ struct Arguments {
         return true;
     }
 
-     [[nodiscard]] std::string extractTypesAsString() const {
+    [[nodiscard]] std::string extractTypesAsString() const {
         std::string res;
         for (const auto arg: args) {
             res += arg->type->toString() + '_';
@@ -196,9 +202,12 @@ struct Method {
     Statements *body;
     const Span span;
     std::string fullName;
+    bool isConstructor;
 
-    Method(std::string name, Arguments *arguments, Type *returnType, Statements *body, const Span &span) : name(
-            std::move(name)), arguments(arguments), returnType(returnType), body(body), span(span) {}
+    Method(std::string name, Arguments *arguments, Type *returnType, Statements *body, const Span &span,
+           bool isConstructor = false) : name(
+            std::move(name)), arguments(arguments), returnType(returnType), body(body), span(span),
+                                         isConstructor(isConstructor) {}
 };
 
 struct Constructor {

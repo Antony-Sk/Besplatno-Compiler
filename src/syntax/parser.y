@@ -180,8 +180,8 @@ WhileStatement
     ;
 
 ReturnStatement
-    : RETURN            { $$ = new ReturnStatement(nullptr); }
-    | RETURN Expression { $$ = new ReturnStatement($2); }
+    : RETURN            { $$ = new ReturnStatement(nullptr, $1->span); }
+    | RETURN Expression { $$ = new ReturnStatement($2, $1->span); }
     ;
 
 Expression

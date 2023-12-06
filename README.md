@@ -14,7 +14,11 @@ $ ./a.out
 ...
 ```
 ## Code generation part
-* Inheritance
+* Inheritance 
+  * V tables
+* Std
+* (Optional) Generics
+* Example with array
 * ...
 ## Lexical part
 * Known bugs:
@@ -22,8 +26,9 @@ $ ./a.out
 
 ## Syntax part
 Todo:
-* Destructors for ast nodes
-* void functions
+* (Optional) Destructors for ast nodes
+* (Optional) void functions
+* (Optional) Return constructors to AST (it will make code cleaner)
 
 
 ## Semantic part
@@ -39,7 +44,7 @@ Ready
 
 Todo:
 * Forbid cycling var having (e.g. "int" cannot contain "real" that contains "int")
-* Generics
+* (Optional) Generics
 * Std
   * Print
   * Prime types
@@ -49,8 +54,8 @@ Todo:
   * Unreachable code
     * while/if false/true
   * Constexpr
-* void functions
-* strings
+* (Optional) void functions
+* (Optional) strings
 
 ## General TODOs:
 * More exhaustive example

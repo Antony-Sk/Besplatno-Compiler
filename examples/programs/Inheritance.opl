@@ -1,12 +1,10 @@
-class Integer is
-    this() is end
-end
-
 class A is
     var a : Integer()
     method setA(v: Integer) : Integer is
         a := v
+        return a
     end
+    this() is end
 end
 
 class B extends A is
@@ -20,6 +18,6 @@ end
 class Main is
     this() is
         var x : B(1, 2)
-        x.setA(1)
+        x.setA(5)
     end
 end

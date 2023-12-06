@@ -10,6 +10,7 @@
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
 #include <map>
+#include <unordered_set>
 
 class CodeGenerator {
 public:
@@ -35,7 +36,7 @@ private:
 
     llvm::Value *codegen(BooleanLit *b);
 
-    llvm::Value *codegen(MethodCall *mc);
+    llvm::Value *codegen(MethodCall *mc, const std::string &from);
 
     llvm::Value *codegen(Expression *e);
 
@@ -60,18 +61,35 @@ private:
     llvm::AllocaInst *createEntryBlockAlloca(llvm::Function *TheFunction, const std::string &VarName, llvm::Type *type);
 
     llvm::Type *getLLVMType(Expression *e);
+
     llvm::Type *getLLVMType(Type *e);
 
-    std::vector<llvm::Type*> extractArgsTypes(Arguments* args);
+    std::vector<llvm::Type *> extractArgsTypes(Arguments *args);
 
-    llvm::Value *getProp(const std::string &instance, const std::string &field) const ;
+    llvm::Value *getProp(const std::string &instance, const std::string &field) const;
+
+    llvm::Value *getProp(llvm::Value *instance, const std::string &field) const;
+
+    void generateVTables(ClassDeclaration *cd);
+
 private:
     struct Class {
-        llvm::StructType* type;
-        std::map<std::string, Expression *> fields;
+        struct Field {
+            size_t idx;
+            Expression *exp;
+            llvm::Type *type;
+        };
+        llvm::Type *type;
+        ClassDeclaration *base;
+        std::map<std::string, Field> fields;
+        std::unordered_map<std::string, size_t> methodsOffset;
+        std::vector<llvm::Constant *> vtable;
     };
-    llvm::StructType *cls; // Currently compiling class
+    std::unordered_map<std::string, ClassDeclaration *> typeToCd;
     std::unordered_map<std::string, Class> classes;
+    llvm::Value *lastFunRet = nullptr;
+    bool isInConstructor = false;
+    const std::unordered_set<std::string> NOT_VIRTUAL_CLASSES{"Integer", "Real", "Boolean"};
 };
 
 #endif //BESPLATNO_COMPILER_CODEGEN_H
