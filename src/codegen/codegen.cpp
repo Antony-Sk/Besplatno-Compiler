@@ -385,11 +385,6 @@ llvm::Value *CodeGenerator::codegenDecls(ClassDeclaration *cd) {
     vars.push_back(vtableType->getPointerTo());
     fields["vtable" + cd->type->toString()] = {vars.size() - 1, nullptr, getLLVMType(cd->type)};
 
-    std::cout << cd->type->toString() << " fields\n";
-    for (auto [n, f]: fields) {
-        std::cout << n << " " << f.idx << "\n";
-    }
-
     if (NOT_VIRTUAL_CLASSES.contains(cd->type->toString())) {
         classes[cd->type->toString()] = {getLLVMType(cd->type), nullptr, fields};
         return nullptr;

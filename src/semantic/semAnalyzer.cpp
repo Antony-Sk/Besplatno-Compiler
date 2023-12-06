@@ -16,7 +16,7 @@ SemAnalyzer::SemAnalyzer(const Program &p) { // Todo: generics work incorrectly 
         className = cd->type->toString();
         if (cd->type->generics != nullptr) { // generic class todo!!!
             templateClassesNames.insert({cd->type->base, className});
-            className = cd->type->base;
+            className = cd->type->toString();
         }
         if (cds.contains(className)) {
             error("Redeclaration of class " + className, cd->type->span);
