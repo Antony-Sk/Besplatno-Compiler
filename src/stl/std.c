@@ -19,6 +19,9 @@ long Div_Integer_Integer_(long other, long this) {
 bool Less_Integer_Integer_(long other, long this) {
     return this < other;
 }
+bool Greater_Integer_Integer_(long other, long this) {
+    return this < other;
+}
 
 bool LessEqual_Integer_Integer_(long other, long this) {
     return this <= other;

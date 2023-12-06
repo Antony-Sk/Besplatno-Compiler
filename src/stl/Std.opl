@@ -75,7 +75,7 @@ class Real is
 //    method LessEqual(p: Real) : Boolean is end
 //    method LessEqual(p: Integer) : Boolean is end
 //    method Greater(p: Real) : Boolean is end
-//    method Greater(p: Integer) : Boolean is end
+    method Greater(p: Integer) : Boolean is end
 //    method GreaterEqual(p: Real) : Boolean is end
 //    method GreaterEqual(p: Integer) : Boolean is end
 //    method Equal(p: Real) : Boolean is end
@@ -101,8 +101,8 @@ end
 //    this() is end
 //end
 
-class Array[Integer] is
-    this(len: Integer) is end
-    method Get(i: Integer) : Integer is end
-    method Set(i: Integer, val: Integer) : Integer is end
-end
+//class Array[Integer] is
+//    this(len: Integer) is end
+//    method Get(i: Integer) : Integer is end
+//    method Set(i: Integer, val: Integer) : Integer is end
+//end

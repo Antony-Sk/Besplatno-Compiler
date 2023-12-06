@@ -67,6 +67,18 @@ define dso_local zeroext i1 @Less_Integer_Integer_(i64 noundef %0, i64 noundef %
 }
 
 ; Function Attrs: noinline nounwind optnone sspstrong uwtable
+define dso_local zeroext i1 @Greater_Integer_Integer_(i64 noundef %0, i64 noundef %1) #0 {
+  %3 = alloca i64, align 8
+  %4 = alloca i64, align 8
+  store i64 %0, ptr %3, align 8
+  store i64 %1, ptr %4, align 8
+  %5 = load i64, ptr %4, align 8
+  %6 = load i64, ptr %3, align 8
+  %7 = icmp slt i64 %5, %6
+  ret i1 %7
+}
+
+; Function Attrs: noinline nounwind optnone sspstrong uwtable
 define dso_local zeroext i1 @LessEqual_Integer_Integer_(i64 noundef %0, i64 noundef %1) #0 {
   %3 = alloca i64, align 8
   %4 = alloca i64, align 8

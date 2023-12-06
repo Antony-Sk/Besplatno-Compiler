@@ -17,6 +17,9 @@ $ ./a.out
 * Inheritance 
   * V tables
 * Std
+
+
+Todo:
 * (Optional) Generics
 * Example with array
 * ...
@@ -46,8 +49,6 @@ Todo:
 * Forbid cycling var having (e.g. "int" cannot contain "real" that contains "int")
 * (Optional) Generics
 * Std
-  * Print
-  * Prime types
   * Arrays
 * Opts 
   * Unused vars

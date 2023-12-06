@@ -77,7 +77,7 @@ llvm::Value *CodeGenerator::codegen(MethodCall *mc, const std::string &from) {
             argsV.push_back(namedValues.at(from));
     }
     auto ret = builder->CreateCall(ft, callee, argsV, "calltmp");
-    return ret;//builder->CreateLoad(ft->getReturnType(), ret);
+    return ret;
 }
 
 llvm::Value *CodeGenerator::codegen(Expression *e) {
@@ -106,8 +106,6 @@ llvm::Value *CodeGenerator::codegen(Expression *e) {
                 auto val = cg->getProp("this", p.first);
                 if (val == nullptr)
                     error("Var " + p.first + " not found");
-//                if (cg->isInConstructor)
-//                    val = cg->builder->CreateLoad(llvm::Type::getInt64PtrTy(*cg->theContext), val, "this->" + p.first);
                 while (!cg->classes.at(thisType->getStructName().str()).fields.contains(p.first)) {
                     thisType = cg->classes.at(
                             cg->classes.at(thisType->getStructName().str()).base->type->toString()).type;
@@ -175,10 +173,6 @@ llvm::Function *CodeGenerator::codegen(Method *m) {
         }
         obj = namedValues["this"] = createEntryBlockAlloca(F, "this", getLLVMType(m->returnType));
         namedValuesTypes["this"] = obj->getAllocatedType();
-//        namedValues["this"] = createEntryBlockAlloca(F, "this", getLLVMType(m->returnType)->getPointerTo());
-//        builder->CreateStore(namedValues["_this"], namedValues["this"]);
-//        namedValuesTypes["this"] = obj->getAllocatedType();
-
         for (const auto &[name, var]: classes[m->name].fields) {
             if (var.exp != nullptr)
                 builder->CreateStore(codegen(var.exp), getProp("this", name));
@@ -233,9 +227,6 @@ llvm::Value *CodeGenerator::codegen(Statements *statements) {
             c.builder->SetInsertPoint(ThenBB);
 
             llvm::Value *ThenV = c.codegen(s->statements);
-//            if (!ThenV) { // todo
-//                return nullptr;
-//            }
             if (!ThenV)
                 c.builder->CreateBr(MergeBB);
             // Codegen of 'Then' can change the current block, update ThenBB for the PHI.
@@ -245,15 +236,10 @@ llvm::Value *CodeGenerator::codegen(Statements *statements) {
             c.builder->SetInsertPoint(ElseBB);
 
             llvm::Value *ElseV = c.codegen(s->elseStatements);
-//            if (!ElseV) { // todo
-//                return nullptr;
-//            }
+            if (!ElseV) { } // todo
 
             if (!ElseV)
                 c.builder->CreateBr(MergeBB);
-            // codegen of 'Else' can change the current block, update ElseBB for the PHI.
-//            ElseBB = c.builder->GetInsertBlock();
-            // Emit merge block.
             TheFunction->insert(TheFunction->end(), MergeBB);
             c.builder->SetInsertPoint(MergeBB);
             return nullptr;
@@ -338,25 +324,23 @@ CodeGenerator::getProp(llvm::Value *instance, const std::string &field) const {
 llvm::Value *CodeGenerator::codegen(ClassDeclaration *cd) {
     struct Visitor {
         CodeGenerator &c;
-
-        llvm::Value *operator()(Variable *vd) {
-            return nullptr;
-        }
-
-        llvm::Value *operator()(Method *vd) {
-            return c.codegen(vd);
-        }
-
-        llvm::Value *operator()(Constructor *) {
-            error("Something wrong: no constructors in AST!!!");
-        }
+        // Variable are initialized in constructor, not here
+        llvm::Value *operator()(Variable *vd) { return nullptr; }
+        llvm::Value *operator()(Method *vd) { return c.codegen(vd); }
+        llvm::Value *operator()(Constructor *) {}
     } visitor(*this);
     if (cd->body->members == nullptr)
         return nullptr;
+    // Generating function bodies
     for (auto &member: cd->body->members->decls) {
         std::visit(visitor, *member);
     }
     return nullptr;
+}
+
+void addStdArrays(ClassDeclaration* cd, llvm::Type* elemType, auto &fields, std::vector<llvm::Type *> &vars) {
+//    vars.push_back(llvm::ArrayType::get(elemType));
+//    fields["array"] = {vars.size() - 1, var->expression, type};
 }
 
 llvm::Value *CodeGenerator::codegenDecls(ClassDeclaration *cd) {
@@ -364,6 +348,9 @@ llvm::Value *CodeGenerator::codegenDecls(ClassDeclaration *cd) {
         return nullptr;
     std::vector<llvm::Type *> vars;
     std::map<std::string, Class::Field> fields;
+    if (cd->type->base == "Array") {
+        addStdArrays(cd, getLLVMType(cd->type->generics->types[0]), fields, vars);
+    }
     size_t methodsNum = 0;
     if (cd->extends != nullptr) { // Inheritance
         codegenDecls(typeToCd[cd->extends->toString()]);

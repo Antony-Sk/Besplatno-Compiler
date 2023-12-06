@@ -2,6 +2,11 @@ class A is
     var a : Integer()
     method setA(v: Integer) : Integer is
         a := v
+        setB(5)
+        return a
+    end
+    method setB(v: Integer) : Integer is
+        a := v
         return a
     end
     this() is end
