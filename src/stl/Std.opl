@@ -1,0 +1,108 @@
+class Class is end
+class AnyValue extends Class is end
+//class AnyRef extends Class is end
+class Integer is
+    method Print() : Integer is end
+    // Constructors
+    this(p: Integer) is end
+    this() is end
+//    this(p: Real) is end
+//
+//    // Features
+//    var Min : Integer(0)
+//    var Max : Integer(0)
+//
+//    // Conversions
+//    method toReal() : Real is end
+//    method toBoolean() : Boolean is end
+//
+//    // Unary operators
+//    method UnaryMinus() : Integer is end
+//
+//    // Integer binary arithmetics
+    method Plus(p:Integer) : Integer is end
+//    method Plus(p:Real) : Real is end
+    method Minus(p: Integer) : Integer is end
+//    method Minus(p: Real) : Real is end
+    method Mult(p: Integer) : Integer is end
+//    method Mult(p: Real) : Real is end
+    method Div(p: Integer) : Integer is end
+//    method Div(p: Real) : Real is end
+//    method Rem(p: Integer) : Integer is end
+//
+//    // Relations
+    method Less(p: Integer) : Boolean is end
+//    method Less(p: Real) : Boolean is end
+    method LessEqual(p: Integer) : Boolean is end
+//    method LessEqual(p: Real) : Boolean is end
+//    method Greater(p: Integer) : Boolean is end
+//    method Greater(p: Real) : Boolean is end
+//    method GreaterEqual(p: Integer) : Boolean is end
+//    method GreaterEqual(p: Real) : Boolean is end
+    method Equal(p: Integer) : Boolean is end
+//    method Equal(p: Real) : Boolean is end
+end
+class Real is
+//    // Constructors
+//    this(p: Real) is end
+//    this(p: Integer) is end
+//
+//    // Features
+//    var Min : Real(0)
+//    var Max : Real(0)
+//    var Epsilon : Real(0)
+//
+//    // Conversions
+    method toInteger() : Integer is end
+//
+//    // Unary operators
+//    method UnaryMinus() : Real is end
+//
+//    // Real binary arithmetics
+//    method Plus(p:Real) : Real is end
+//    method Plus(p:Integer) : Real is end
+//    method Minus(p: Real) : Real is end
+//    method Minus(p: Integer) : Real is end
+//    method Mult(p: Real) : Real is end
+//    method Mult(p: Integer) : Real is end
+//    method Div(p: Integer) : Real is end
+//    method Div(p: Real) : Real is end
+//    method Rem(p: Integer) : Real is end
+//
+//    // Relations
+//    method Less(p: Real) : Boolean is end
+//    method Less(p: Integer) : Boolean is end
+//    method LessEqual(p: Real) : Boolean is end
+//    method LessEqual(p: Integer) : Boolean is end
+//    method Greater(p: Real) : Boolean is end
+//    method Greater(p: Integer) : Boolean is end
+//    method GreaterEqual(p: Real) : Boolean is end
+//    method GreaterEqual(p: Integer) : Boolean is end
+//    method Equal(p: Real) : Boolean is end
+//    method Equal(p: Integer) : Boolean is end
+end
+
+class Boolean is
+    // Constructor
+    this(b: Boolean) is end
+
+    // Conversion
+    method toInteger() : Integer is end
+
+    // Boolean operators
+    method Or(p: Boolean) : Boolean is end
+    method And(p: Boolean) : Boolean is end
+    method Xor(p: Boolean) : Boolean is end
+    method Not() : Boolean is end
+end
+
+//class Integer extends AnyValue is
+//    method Plus(other: Integer) : Integer is end
+//    this() is end
+//end
+
+class Array[Integer] is
+    this(len: Integer) is end
+    method Get(i: Integer) : Integer is end
+    method Set(i: Integer, val: Integer) : Integer is end
+end
